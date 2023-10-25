@@ -1,0 +1,24 @@
+[
+  {
+    "UserId": 1,
+    "title": "reports 1",
+    "description": "description 1",
+    "isActive": true,
+    "mainImage": "www.google.com",
+    "latitude": 123,
+    "longitude": 123,
+    "location": "a",
+    "typeId": 1
+  },
+  {
+    "UserId": 1,
+    "title": "reports 2",
+    "description": "description 2",
+    "isActive": true,
+    "mainImage": "www.google.com",
+    "latitude": 123,
+    "longitude": 123,
+    "location": "a",
+    "typeId": 1
+  }
+]

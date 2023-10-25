@@ -1,0 +1,16 @@
+[
+  {
+    "image": "www.google.com",
+    "status": "like",
+    "UserId": 1,
+    "comment": "asd",
+    "ReportId": 1
+  },
+  {
+    "image": "www.google.com",
+    "status": "dislike",
+    "UserId": 2,
+    "comment": "asd",
+    "ReportId": 1
+  }
+]
