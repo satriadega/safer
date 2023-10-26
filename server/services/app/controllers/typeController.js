@@ -5,18 +5,16 @@ class TypeController {
     try {
       const { name, adminVerificator } = req.body;
       try {
-        if (adminVerificator !== "55555") {
+        if (adminVerificator !== "55555" || !adminVerificator) {
           throw { name: "Status false" };
         }
         const newType = await Type.create({ name });
-        console.log(newType);
         res.status(201).json(newType);
       } catch (err) {
         console.log(err);
         next(err);
       }
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -27,9 +25,7 @@ class TypeController {
         order: [["createdAt", "DESC"]],
       });
       res.status(200).json(types);
-      console.log(types);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

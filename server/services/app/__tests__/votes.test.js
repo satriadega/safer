@@ -122,7 +122,8 @@ describe("POST /votes", function () {
       .post("/votes")
       .set("access_token", validToken)
       .send({
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
         status: "like",
         UserId: 1,
         comment: "asd",
@@ -136,7 +137,8 @@ describe("POST /votes", function () {
 
   it("should return error if create new vote without token and return status 401", async () => {
     const response = await request(app).post("/votes").send({
-      image: "www.google.com",
+      image:
+        "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
       status: "like",
       UserId: 1,
       comment: "asd",
@@ -152,7 +154,8 @@ describe("POST /votes", function () {
       .post("/votes")
       .set("access_token", "invalid")
       .send({
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
         status: "like",
         UserId: 1,
         comment: "asd",
@@ -168,7 +171,8 @@ describe("POST /votes", function () {
       .post("/votes")
       .set("access_token", validToken)
       .send({
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
         status: "like",
         UserId: 1,
         comment: "asd",
@@ -184,7 +188,8 @@ describe("POST /votes", function () {
       .post("/votes")
       .set("access_token", validToken)
       .send({
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
         status: "",
         UserId: 1,
         comment: "asd",
@@ -200,7 +205,8 @@ describe("POST /votes", function () {
       .post("/votes")
       .set("access_token", validToken)
       .send({
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
         status: "like",
         UserId: 1,
         comment: "asd",
@@ -216,7 +222,8 @@ describe("POST /votes", function () {
       .post("/votes")
       .set("access_token", validToken)
       .send({
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
         status: "like",
         UserId: 1,
         comment: "",
@@ -236,7 +243,8 @@ describe("PUT /votes/:id", function () {
       .send({
         status: "like",
         comment: "asd",
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
       });
 
     expect(response.status).toBe(200);
@@ -254,7 +262,8 @@ describe("PUT /votes/:id", function () {
       .send({
         status: "like",
         comment: "asd",
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
       });
     expect(response.status).toBe(404);
     expect(response.body).toBeInstanceOf(Object);
@@ -268,7 +277,8 @@ describe("PUT /votes/:id", function () {
       .send({
         status: "like",
         comment: "asd",
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
       });
     expect(response.status).toBe(403);
     expect(response.body).toBeInstanceOf(Object);
@@ -279,7 +289,8 @@ describe("PUT /votes/:id", function () {
     const response = await request(app).put("/votes/1").send({
       status: "like",
       comment: "asd",
-      image: "www.google.com",
+      image:
+        "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
     });
 
     expect(response.status).toBe(401);
@@ -294,7 +305,8 @@ describe("PUT /votes/:id", function () {
       .send({
         status: "like",
         comment: "asd",
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
       });
 
     expect(response.status).toBe(401);
@@ -309,7 +321,8 @@ describe("PUT /votes/:id", function () {
       .send({
         status: "unknown",
         comment: "asd",
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
@@ -323,7 +336,8 @@ describe("PUT /votes/:id", function () {
       .send({
         status: "like",
         comment: "",
-        image: "www.google.com",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));

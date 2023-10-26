@@ -47,11 +47,6 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: { msg: "ReportId is required" },
         },
       },
-      image: {
-        type: DataTypes.STRING,
-
-        allowNull: true,
-      },
     },
     {
       sequelize,

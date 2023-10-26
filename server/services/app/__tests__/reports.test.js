@@ -164,7 +164,7 @@ describe("POST /reports", function () {
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", ["Latitude is required"]);
+    expect(response.body).toHaveProperty("message", "Data Not Valid");
   });
 
   it("should return error if longitude is empty string and return status 400", async () => {
@@ -180,10 +180,10 @@ describe("POST /reports", function () {
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", ["Longitude is required"]);
+    expect(response.body).toHaveProperty("message", "Data Not Valid");
   });
 
-  it("should return error if TypeId is empty string and return status 400", async () => {
+  it("should return error if TypeId is not exist and return status 400", async () => {
     const response = await request(app)
       .post("/reports")
       .set("access_token", validToken)
@@ -191,11 +191,26 @@ describe("POST /reports", function () {
         title: "title",
         description: "description",
         latitude: 12345,
-        TypeId: "",
         longitude: 12345,
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", ["Type is required"]);
+    expect(response.body).toHaveProperty("message", "Data Not Valid");
+  });
+
+  it("should return error if TypeId is not exists and return status 404", async () => {
+    const response = await request(app)
+      .post("/reports")
+      .set("access_token", validToken)
+      .send({
+        title: "title",
+        description: "description",
+        latitude: 12345,
+        TypeId: 404,
+        longitude: 12345,
+      });
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toHaveProperty("message", "Error Not Found");
   });
 });

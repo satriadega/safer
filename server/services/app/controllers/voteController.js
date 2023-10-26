@@ -27,7 +27,6 @@ class VoteController {
         res.status(200).json({ vote });
       }
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -37,8 +36,7 @@ class VoteController {
       const { status, comment, ReportId, image } = req.body;
       const userId = req.user.id;
 
-      console.log("ReportId", ReportId);
-      if (!ReportId) {
+      if (ReportI === undefined) {
         throw { name: "Not Valid" };
       }
 

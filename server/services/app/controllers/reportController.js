@@ -3,6 +3,7 @@ const geoLocation = require("../helpers/geocoder");
 
 class ReportController {
   static async postReport(req, res, next) {
+    const trx = await sequelize.transaction();
     try {
       const {
         title,
@@ -15,36 +16,39 @@ class ReportController {
         longitudeDelta,
       } = req.body;
       const userId = req.user.id;
-      const trx = await sequelize.transaction();
-      try {
-        const location = await geoLocation(latitude, longitude);
-        const newReport = await Report.create(
-          {
-            title,
-            description,
-            mainImage,
-            UserId: userId,
-            TypeId,
-            latitude,
-            latitudeDelta,
-            longitude,
-            longitudeDelta,
-            location,
-          },
-          { transaction: trx }
-        );
 
-        await trx.commit();
-        console.log(newReport);
-        res.status(201).json({ newReport });
-      } catch (err) {
-        console.log(err);
-        next(err);
-        await trx.rollback();
+      console.log(TypeId);
+      if (TypeId === undefined || !latitude || !longitude) {
+        throw { name: "Not Valid" };
       }
+      const typeFound = await Type.findByPk(+TypeId);
+      if (!typeFound) {
+        throw { name: "Not Found" };
+      }
+
+      const location = await geoLocation(latitude, longitude);
+      const newReport = await Report.create(
+        {
+          title,
+          description,
+          mainImage,
+          UserId: userId,
+          TypeId,
+          latitude,
+          latitudeDelta,
+          longitude,
+          longitudeDelta,
+          location,
+        },
+        { transaction: trx }
+      );
+
+      await trx.commit();
+      console.log(newReport);
+      res.status(201).json({ newReport });
     } catch (err) {
-      console.log(err);
       next(err);
+      await trx.rollback();
     }
   }
 

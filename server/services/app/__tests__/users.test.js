@@ -133,7 +133,7 @@ describe("POST /register", function () {
   it("should return error if gender is not male or female and return status 400", async () => {
     const response = await request(app).post("/register").send({
       name: "tester",
-      email: "tester@mail.com",
+      email: "anothertester@mail.com",
       password: "admin",
       gender: "binary",
       phoneNumber: 123,

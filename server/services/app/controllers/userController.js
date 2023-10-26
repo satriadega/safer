@@ -1,26 +1,30 @@
-const { User } = require("../models");
+const { User, sequelize } = require("../models");
 const { signToken } = require("../helpers/jwt");
 const { comparePassword } = require("../helpers/bcrypt");
 
 class UserController {
   static async registerUser(req, res, next) {
     const { name, email, password, gender, phoneNumber, address } = req.body;
+    const trx = await sequelize.transaction();
     try {
+      const newUser = await User.create(
+        {
+          name,
+          email,
+          password,
+          gender,
+          phoneNumber,
+          address,
+        },
+        { transaction: trx }
+      );
       if (gender !== "male" && gender !== "female") {
         throw { name: "Not Valid" };
       }
-      const newUser = await User.create({
-        name,
-        email,
-        password,
-        gender,
-        phoneNumber,
-        address,
-      });
-      console.log(newUser);
+      await trx.commit();
       res.status(201).json({ id: newUser.id, email: newUser.email });
     } catch (err) {
-      console.log(err);
+      await trx.rollback();
       next(err);
     }
   }
@@ -28,12 +32,10 @@ class UserController {
   static async loginUser(req, res, next) {
     try {
       const { email, password } = req.body;
-      if (!email) {
+      if (!email || !password) {
         throw { name: "Invalid Login" };
       }
-      if (!password) {
-        throw { name: "Invalid Login" };
-      }
+
       const user = await User.findOne({
         where: {
           email,
@@ -58,7 +60,7 @@ class UserController {
         access_token: accessToken,
         email: user.email,
         name: user.name,
-        id: user.id
+        id: user.id,
       });
     } catch (err) {
       console.log(err);
