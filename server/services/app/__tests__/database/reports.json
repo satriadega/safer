@@ -20,5 +20,16 @@
     "longitude": 123,
     "location": "a",
     "typeId": 1
+  },
+  {
+    "UserId": 1,
+    "title": "reports 3",
+    "description": "description 3",
+    "isActive": true,
+    "mainImage": "www.google.com",
+    "latitude": 123,
+    "longitude": 123,
+    "location": "a",
+    "typeId": 1
   }
 ]

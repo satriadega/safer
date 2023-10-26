@@ -4,7 +4,6 @@ const authentication = require("../middleware/authentication");
 const { authorizationUpdate } = require("../middleware/authorization");
 
 router.get("/", VoteController.getVotes);
-router.get("/:id", VoteController.getVoteByReportId);
 router.use(authentication);
 router.post("/", VoteController.postVote);
 router.get("/:id", authorizationUpdate, VoteController.getVoteById);

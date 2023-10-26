@@ -126,7 +126,7 @@ describe("POST /votes", function () {
         status: "like",
         UserId: 1,
         comment: "asd",
-        ReportId: 1,
+        ReportId: 3,
       });
 
     expect(response.status).toBe(201);
@@ -220,7 +220,7 @@ describe("POST /votes", function () {
         status: "like",
         UserId: 1,
         comment: "",
-        ReportId: 1,
+        ReportId: 2,
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
@@ -289,7 +289,7 @@ describe("PUT /votes/:id", function () {
 
   it("failed update vote with invalid token return status 401", async () => {
     const response = await await request(app)
-      .get("/votes/1")
+      .put("/votes/1")
       .set("access_token", "invalid")
       .send({
         status: "like",

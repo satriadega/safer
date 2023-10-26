@@ -6,6 +6,7 @@ describe("POST /types", function () {
   it("create new type and return status 201", async () => {
     const response = await request(app).post("/types").send({
       name: "typeName",
+      adminVerificator: "55555",
     });
     expect(response.status).toBe(201);
     expect(response.body).toEqual(expect.any(Object));

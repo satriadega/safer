@@ -3,8 +3,11 @@ const { Type, sequelize } = require("../models");
 class TypeController {
   static async postType(req, res, next) {
     try {
-      const { name } = req.body;
+      const { name, adminVerificator } = req.body;
       try {
+        if (adminVerificator !== "55555") {
+          throw { name: "Status false" };
+        }
         const newType = await Type.create({ name });
         console.log(newType);
         res.status(201).json(newType);

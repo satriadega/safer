@@ -17,11 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       status: {
         type: DataTypes.STRING,
-        // allowNull: false,
-        // validate: {
-        //   notNull: { msg: "Status is required" },
-        //   notEmpty: { msg: "Status is required" },
-        // },
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Status is required" },
+          notEmpty: { msg: "Status is required" },
+        },
       },
       UserId: {
         type: DataTypes.INTEGER,
@@ -33,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       comment: {
         type: DataTypes.TEXT,
-        // allowNull: false,
-        // validate: {
-        //   notNull: { msg: "Comment is required" },
-        //   notEmpty: { msg: "Comment is required" },
-        // },
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Comment is required" },
+          notEmpty: { msg: "Comment is required" },
+        },
       },
       ReportId: {
         type: DataTypes.INTEGER,
@@ -51,7 +51,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
 
         allowNull: true,
-
       },
     },
     {
