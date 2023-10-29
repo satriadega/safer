@@ -31,5 +31,16 @@
     "longitude": 123,
     "location": "a",
     "typeId": 1
+  },
+  {
+    "UserId": 1,
+    "title": "reports 4",
+    "description": "description 4",
+    "isActive": false,
+    "mainImage": "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
+    "latitude": 123,
+    "longitude": 123,
+    "location": "a",
+    "typeId": 1
   }
 ]

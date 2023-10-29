@@ -31,7 +31,10 @@ const errorHandler = (err, req, res, next) => {
     case "Status false":
       status = 403;
       message = "You are not authorized";
+      break;
     default:
+      status = 400;
+      message = err.name;
       break;
   }
   res.status(status).json({ message });

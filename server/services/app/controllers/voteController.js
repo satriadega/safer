@@ -36,12 +36,12 @@ class VoteController {
       const { status, comment, ReportId, image } = req.body;
       const userId = req.user.id;
 
-      if (ReportI === undefined) {
-        throw { name: "Not Valid" };
+      if (ReportId === undefined) {
+        throw { name: "ReportId not defined" };
       }
 
       if (status !== "like" && status !== "dislike") {
-        throw { name: "Not Valid" };
+        throw { name: "Status must be like or dislike" };
       }
 
       const report = await Report.findByPk(+ReportId);
@@ -100,12 +100,12 @@ class VoteController {
   }
 
   static async updateVoteById(req, res, next) {
+    const { id } = req.params;
+    console.log(+id, "hahaha");
     try {
-      const { id } = req.params;
-      console.log(id);
       const { status, comment, image } = req.body;
       if (status !== "like" && status !== "dislike") {
-        throw { name: "Not Valid" };
+        throw { name: "Status must be like or dislike" };
       }
 
       let result = await Vote.update(
@@ -146,7 +146,6 @@ class VoteController {
         res.status(200).json(voteByReport);
       }
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

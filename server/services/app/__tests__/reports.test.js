@@ -164,7 +164,10 @@ describe("POST /reports", function () {
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", "Data Not Valid");
+    expect(response.body).toHaveProperty(
+      "message",
+      "TypeId or Latitude or Longitude must be provided"
+    );
   });
 
   it("should return error if longitude is empty string and return status 400", async () => {
@@ -180,7 +183,10 @@ describe("POST /reports", function () {
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", "Data Not Valid");
+    expect(response.body).toHaveProperty(
+      "message",
+      "TypeId or Latitude or Longitude must be provided"
+    );
   });
 
   it("should return error if TypeId is not exist and return status 400", async () => {
@@ -195,7 +201,10 @@ describe("POST /reports", function () {
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", "Data Not Valid");
+    expect(response.body).toHaveProperty(
+      "message",
+      "TypeId or Latitude or Longitude must be provided"
+    );
   });
 
   it("should return error if TypeId is not exists and return status 404", async () => {

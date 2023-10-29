@@ -19,7 +19,7 @@ class ReportController {
 
       console.log(TypeId);
       if (TypeId === undefined || !latitude || !longitude) {
-        throw { name: "Not Valid" };
+        throw { name: "TypeId or Latitude or Longitude must be provided" };
       }
       const typeFound = await Type.findByPk(+TypeId);
       if (!typeFound) {

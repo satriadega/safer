@@ -178,9 +178,9 @@ describe("POST /votes", function () {
         comment: "asd",
         ReportId: "",
       });
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", "Data Not Valid");
+    expect(response.body).toHaveProperty("message", "Error Not Found");
   });
 
   it("should return error if status is not like or dislike and return status 400", async () => {
@@ -197,7 +197,10 @@ describe("POST /votes", function () {
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", "Data Not Valid");
+    expect(response.body).toHaveProperty(
+      "message",
+      "Status must be like or dislike"
+    );
   });
 
   it("should return error if ReportId is not exist and return status 404", async () => {
@@ -232,6 +235,51 @@ describe("POST /votes", function () {
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
     expect(response.body).toHaveProperty("message", ["Comment is required"]);
+  });
+
+  it("should return error if isActive is false and return status 403", async () => {
+    const response = await request(app)
+      .post("/votes")
+      .set("access_token", validToken)
+      .send({
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
+        status: "like",
+        UserId: 1,
+        comment: "test",
+        ReportId: 4,
+      });
+    expect(response.status).toBe(403);
+    expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toHaveProperty("message", "You are not authorized");
+  });
+
+  it("should return error if UserId and ReportId post vote more than once and return status 403", async () => {
+    const dummy = await request(app)
+      .post("/votes")
+      .set("access_token", validToken)
+      .send({
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
+        status: "like",
+        UserId: 1,
+        comment: "test",
+        ReportId: 3,
+      });
+    const response = await request(app)
+      .post("/votes")
+      .set("access_token", validToken)
+      .send({
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
+        status: "like",
+        UserId: 1,
+        comment: "test",
+        ReportId: 3,
+      });
+    expect(response.status).toBe(403);
+    expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toHaveProperty("message", "You are not authorized");
   });
 });
 
@@ -314,6 +362,42 @@ describe("PUT /votes/:id", function () {
     expect(response.body).toHaveProperty("message", "Invalid token");
   });
 
+  it("failed update vote if ReportId isActive is false return status 403", async () => {
+    await Report.update(
+      {
+        isActive: false,
+      },
+      {
+        where: {
+          id: 1,
+        },
+      }
+    );
+    const response = await request(app)
+      .put("/votes/1")
+      .set("access_token", validToken)
+      .send({
+        status: "like",
+        comment: "asd",
+        image:
+          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
+      });
+
+    expect(response.status).toBe(403);
+    expect(response.body).toBeInstanceOf(Object);
+    expect(response.body).toHaveProperty("message", "You are not authorized");
+    await Report.update(
+      {
+        isActive: true,
+      },
+      {
+        where: {
+          id: 1,
+        },
+      }
+    );
+  });
+
   it("should return error if status is not like or dislike and return status 400", async () => {
     const response = await request(app)
       .put("/votes/1")
@@ -326,7 +410,10 @@ describe("PUT /votes/:id", function () {
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("message", "Data Not Valid");
+    expect(response.body).toHaveProperty(
+      "message",
+      "Status must be like or dislike"
+    );
   });
 
   it("should return error if comment is empty string and return status 400", async () => {
