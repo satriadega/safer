@@ -1,6 +1,7 @@
 const axios = require("axios");
 const APP_SERVICE_URL = process.env.APP_SERVICE_URL || "http://localhost:3000";
 const redis = require("../config/redisConnection");
+const { throwApiError } = require("../utils/errorHandler");
 
 const typeDefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
@@ -42,21 +43,6 @@ const typeDefs = `#graphql
     id: ID
     name: String
   }
-
-
-  # input ReportInput {
-  #   title: String!
-  #   description: String!
-  #   TypeId: ID
-  #   # isActive: Boolean
-  #   mainImage: String!
-  #   latitude: String!
-  #   latitudeDelta: String
-  #   longitude: String!
-
-  #   longitudeDelta: String
-  #   images: [String!]
-  # }
 
   input UserInput {
     name: String!
@@ -102,11 +88,10 @@ const typeDefs = `#graphql
 
   type Mutation {
     createReport(newReport: ReportInput!): Report
-
-    registerUser(newUser: UserInput): User
     loginUser(email: String!, password: String!): String
     createUser(newUser: UserInput): User
 
+    # registerUser(newUser: UserInput): User
 
     # updateReport(newReport: ReportInput!, id:ID): Report
     # deleteReport(id:ID!): Report
@@ -171,7 +156,7 @@ const resolvers = {
 
   Mutation: {
     createReport: async (_, args, context) => {
-      console.log(context, "<<<<ini con");
+      console.log(context, "<<<<< ini context");
 
       try {
         const { data: report } = await axios.post(
@@ -210,36 +195,21 @@ const resolvers = {
         redis.del("userCache");
         return data;
       } catch (error) {
-        console.log(error);
-      }
-    },
-
-    registerUser: async (_, args) => {
-      try {
-        const { data: user } = await axios.post(
-          `${APP_SERVICE_URL}/register`,
-          args.newUser
-        );
-        // await redis.del("reports");
-        return user;
-      } catch (error) {
-        console.log(error);
-        throw new Error("Failed register user");
+        throwApiError(error);
       }
     },
 
     loginUser: async (_, args) => {
       try {
         const { email, password } = args;
-        const response = await axios.post(`${APP_SERVICE_URL}/login`, {
+        const { data } = await axios.post(`${APP_SERVICE_URL}/login`, {
           email,
           password,
         });
-        console.log(response.data, ">>>>>>>>");
-        const result = response.data;
-        return JSON.stringify(result);
+        console.log(data);
+        return JSON.stringify(data);
       } catch (error) {
-        throw new Error("Failed login user");
+        throwApiError(error);
       }
     },
   },

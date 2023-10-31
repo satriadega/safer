@@ -43,6 +43,7 @@ const ADD_REPORT = gql`
 
 export default function AddReportScreen({ route }) {
   const { data } = useQuery(GET_TYPES);
+
   const [access_token, setAccessToken] = useState("");
 
   const navigation = useNavigation();
@@ -70,11 +71,16 @@ export default function AddReportScreen({ route }) {
   );
 
   const submitReport = () => {
-    uploadCloudinary(image);
+    try {
+      uploadCloudinary(image);
+    } catch (err) {
+      console.log(err, 55555);
+    }
   };
 
   const funcAccessToken = async () => {
     try {
+      setTypeId(data?.types[0]);
       const getAccessToken = await AsyncStorage.getItem("access_token");
       setAccessToken(getAccessToken);
     } catch (err) {
@@ -110,13 +116,8 @@ export default function AddReportScreen({ route }) {
           TypeId: parseInt(typeId),
           latitude: coordinate.latitude.toString(),
           longitude: coordinate.longitude.toString(),
-          latitudeDelta: "0.025",
-          longitudeDelta: "0.025",
-          // location: location
         };
 
-        console.log(access_token, "acc token client add");
-        console.log(payload, "<<<<<< PAYLOAD CLIENT");
         funcCreateReport({
           variables: {
             newReport: payload,
@@ -179,7 +180,10 @@ export default function AddReportScreen({ route }) {
                 <Picker
                   style={{ backgroundColor: "#f0f6fa", height: 50 }}
                   selectedValue={typeId}
-                  onValueChange={(itemValue) => setTypeId(itemValue)}
+                  onValueChange={(itemValue) => {
+                    console.log(itemValue);
+                    setTypeId(itemValue);
+                  }}
                 >
                   {data?.types.map((type) => (
                     <Picker.Item

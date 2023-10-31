@@ -23,8 +23,6 @@ const LOGIN_USER = gql`
 `;
 
 export default function LoginScreen({ navigation }) {
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
   const [funcUploadLogin, { data, loading, error }] = useMutation(LOGIN_USER);
 
   const [loginForm, setLoginForm] = useState({
@@ -34,21 +32,18 @@ export default function LoginScreen({ navigation }) {
 
   const clickHandle = async () => {
     try {
-      // console.log(loginForm);
       const { data } = await funcUploadLogin({
         variables: {
           email: loginForm.email,
           password: loginForm.password,
         },
       });
-      console.log(data.loginUser, "<<<<<<< test");
+      console.log(data.loginUser, "<<<<<");
       let obj = JSON.parse(data.loginUser);
-      console.log(obj, "obj----------");
+
       await AsyncStorage.setItem("access_token", obj.access_token);
       await AsyncStorage.setItem("id", obj.id.toString());
-      // console.log(JSON.parse(data.loginUser.access_token));
 
-      // console.log(access_token, '<<<<<<<access token');
       setLoginForm({
         email: "",
         password: "",

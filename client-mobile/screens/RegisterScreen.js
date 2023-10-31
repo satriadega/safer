@@ -15,7 +15,7 @@ import { gql, useMutation } from "@apollo/client";
 export default function RegisterScreen({ navigation }) {
   const ADD_USER = gql`
     mutation Mutation($newUser: UserInput) {
-      registerUser(newUser: $newUser) {
+      createUser(newUser: $newUser) {
         address
         email
         gender
@@ -50,20 +50,20 @@ export default function RegisterScreen({ navigation }) {
     }
 
     const payload = { name, email, password, gender, phoneNumber, address };
-    console.log(payload, "<<< PAYLOAD");
     funcCreateUser({
       variables: {
         newUser: payload,
       },
     });
 
-    setName("");
-    setEmail("");
-    setPassword("");
-    setGender("");
-    setPhoneNumber("");
-    setAddress("");
-    navigation.navigate("Home");
+    console.log(data, "ini nih;");
+    // setName("");
+    // setEmail("");
+    // setPassword("");
+    // setGender("");
+    // setPhoneNumber("");
+    // setAddress("");
+    // navigation.navigate("Home");
   };
 
   return (
