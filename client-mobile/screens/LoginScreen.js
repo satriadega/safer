@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  Alert,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,7 +24,14 @@ const LOGIN_USER = gql`
 `;
 
 export default function LoginScreen({ navigation }) {
-  const [funcUploadLogin, { data, loading, error }] = useMutation(LOGIN_USER);
+  const [funcUploadLogin, { data, loading, error }] = useMutation(LOGIN_USER, {
+    onError: (err) => {
+      Alert.alert(
+        err.networkError.result.errors[0].code,
+        err.networkError.result.errors[0].message
+      );
+    },
+  });
 
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -49,8 +57,8 @@ export default function LoginScreen({ navigation }) {
         password: "",
       });
       navigation.navigate("Home");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 

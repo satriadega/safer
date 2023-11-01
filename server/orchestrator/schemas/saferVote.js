@@ -1,11 +1,12 @@
 const axios = require("axios");
 const APP_SERVICE_URL = process.env.APP_SERVICE_URL || "http://localhost:3000";
 const redis = require("../config/redisConnection");
+const { throwApiError } = require("../utils/errorHandler");
 
 const typeDefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
   # This "Book" type defines the queryable fields for every book in our data source.
+
   type User {
     id: ID
     name: String
@@ -32,9 +33,9 @@ const typeDefs = `#graphql
   }
 
 
-  type LoginResponse {
-    access_token: String
-  }
+  # type LoginResponse {
+  #   access_token: String
+  # }
 
   type Vote {
     id: ID
@@ -70,8 +71,6 @@ const typeDefs = `#graphql
     createVote(newVote: VoteInput!): Vote
     editVote(newVote: VoteInput!): Vote
 
-
-
     # updateReport(newReport: ReportInput!, id:ID): Report
     # deleteReport(id:ID!): Report
   }
@@ -81,26 +80,24 @@ const resolvers = {
   Query: {
     votes: async (_) => {
       try {
-        await redis.del("votes");
+        // await redis.del("votes");
         const votesCache = await redis.get("votes");
         console.log(votesCache, "ini cache");
         if (votesCache) {
           return JSON.parse(votesCache);
         } else {
           const { data: votes } = await axios.get(`${APP_SERVICE_URL}/votes`);
-          console.log(votes.result, "ini repors");
+          console.log(votes.result, "ini votes");
           await redis.set("votes", JSON.stringify(votes));
           return votes.result;
         }
-      } catch (err) {
-        console.log(err);
-        throw err;
+      } catch (error) {
+        throwApiError(error);
       }
     },
 
     vote: async (_, args, context) => {
       try {
-        // console.log(context.access_token, "accessss");
         const {
           data: { vote },
         } = await axios.get(`${APP_SERVICE_URL}/votes/${args.id}`, {
@@ -119,8 +116,7 @@ const resolvers = {
         // console.log(vote);
         return vote;
       } catch (error) {
-        // console.log("🚀 ~ file: app.js ~ line 99 ~ item: ~ error", error);
-        throw error;
+        throwApiError(error);
       }
     },
 
@@ -131,16 +127,14 @@ const resolvers = {
         );
         console.log("voteByReport", voteByReport);
         return voteByReport;
-      } catch (err) {
-        console.log(err);
-        throw err;
+      } catch (error) {
+        throwApiError(error);
       }
     },
   },
 
   Mutation: {
     createVote: async (_, args, context) => {
-      // console.log(context, "<<<<ini con");
       try {
         const { data: vote } = await axios.post(
           `${APP_SERVICE_URL}/votes`,
@@ -154,13 +148,11 @@ const resolvers = {
         await redis.del("votes");
         return vote;
       } catch (error) {
-        throw new Error("Failed add report");
+        throwApiError(error);
       }
     },
 
     editVote: async (_, args, context) => {
-      // console.log(args);
-      console.log(context, "<<<<ini con");
       try {
         const { id, ...updatedVoteData } = args.newVote;
         console.log(id);
@@ -176,8 +168,7 @@ const resolvers = {
         // await redis.del("votes");
         return vote;
       } catch (error) {
-        console.log(error);
-        throw new Error("Failed edit vote");
+        throwApiError(error);
       }
     },
   },

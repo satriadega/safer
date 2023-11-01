@@ -34,41 +34,57 @@ export default function RegisterScreen({ navigation }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
 
-  const [funcCreateUser, { data, loading, error }] = useMutation(ADD_USER);
-
-  const submitUser = () => {
-    if (!name || !email || !password || !gender || !phoneNumber || !address) {
-      Alert.alert("Invalid Input", "Please fill in all fields");
-      return;
-    }
+  const [funcCreateUser, { data, loading, error }] = useMutation(ADD_USER, {
+    onError: (err) => {
+      console.log(name, email, password, phoneNumber);
+      Alert.alert(
+        err.networkError.result.errors[0].code,
+        err.networkError.result.errors[0].message
+      );
+    },
+  });
+  const submitUser = async () => {
+    // if (!name || !email || !password || !gender || !phoneNumber || !address) {
+    //   Alert.alert("Invalid Input", "Please fill in all fields");
+    //   return;
+    // }
 
     // Regular expression for validating email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      Alert.alert("Invalid Input", "Invalid email format");
-      return;
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(email)) {
+    //   Alert.alert("Invalid Input", "Invalid email format");
+    //   return;
+    // }
+
+    try {
+      const payload = { name, email, password, gender, phoneNumber, address };
+      const { data } = await funcCreateUser({
+        variables: {
+          newUser: payload,
+        },
+      });
+
+      console.log(loading, "ini loading...");
+      if (data) {
+        setName("");
+        setEmail("");
+        setPassword("");
+        setGender("");
+        setPhoneNumber("");
+        setAddress("");
+        navigation.navigate("Home");
+      }
+    } catch (err) {
+      console.log(err);
     }
-
-    const payload = { name, email, password, gender, phoneNumber, address };
-    funcCreateUser({
-      variables: {
-        newUser: payload,
-      },
-    });
-
-    console.log(data, "ini nih;");
-    // setName("");
-    // setEmail("");
-    // setPassword("");
-    // setGender("");
-    // setPhoneNumber("");
-    // setAddress("");
-    // navigation.navigate("Home");
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{ flex: 1, padding: 12 }}>
+      <ScrollView
+        style={{ flex: 1, padding: 12 }}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={{ height: 80 }}>
           <TouchableOpacity
             style={styles.backButton}

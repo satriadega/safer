@@ -17,9 +17,9 @@ const typeDefs = `#graphql
     address: String
   }
 
-  type LoginResponse {
-    access_token: String
-  }
+  # type LoginResponse {
+  #   access_token: String
+  # }
 
   type Report {
     id: ID
@@ -57,13 +57,11 @@ const typeDefs = `#graphql
     title: String!
     description: String!
     TypeId: ID
-    # isActive: Boolean
     mainImage: String!
     latitude: String!
     latitudeDelta: String
     longitude: String!
     longitudeDelta: String
-    # images: [String!]
   }
 
   input UserInput {
@@ -91,8 +89,6 @@ const typeDefs = `#graphql
     loginUser(email: String!, password: String!): String
     createUser(newUser: UserInput): User
 
-    # registerUser(newUser: UserInput): User
-
     # updateReport(newReport: ReportInput!, id:ID): Report
     # deleteReport(id:ID!): Report
   }
@@ -102,7 +98,7 @@ const resolvers = {
   Query: {
     reports: async (_) => {
       try {
-        await redis.del("reports");
+        // await redis.del("reports");
         const reportCache = await redis.get("reports");
         console.log(reportCache, "ini cache");
         if (reportCache) {
@@ -115,11 +111,8 @@ const resolvers = {
           await redis.set("reports", JSON.stringify(reports));
           return reports;
         }
-      } catch (err) {
-        console.log(err);
-        throw err;
-      } finally {
-        await redis.del("reports");
+      } catch (error) {
+        throwApiError(error);
       }
     },
 
@@ -129,17 +122,9 @@ const resolvers = {
           data: { report },
         } = await axios.get(`${APP_SERVICE_URL}/reports/${args.id}`);
 
-        // const { data: userData } = await axios.get(
-        //   `${APP_SERVICE_URL}/users/${report.UserId}`
-        // );
-        // console.log(userData, "ini data user");
-
-        // report.User = userData;
-        // console.log(report.User, ">>>>>>>>>>>>>>>report");
         return report;
       } catch (error) {
-        console.log("🚀 ~ file: app.js ~ line 99 ~ item: ~ error", error);
-        throw error;
+        throwApiError(error);
       }
     },
 
@@ -147,17 +132,14 @@ const resolvers = {
       try {
         const { data: types } = await axios.get(`${APP_SERVICE_URL}/types`);
         return types;
-      } catch (err) {
-        console.log(err);
-        throw err;
+      } catch (error) {
+        throwApiError(error);
       }
     },
   },
 
   Mutation: {
     createReport: async (_, args, context) => {
-      console.log(context, "<<<<< ini context");
-
       try {
         const { data: report } = await axios.post(
           `${APP_SERVICE_URL}/reports`,
@@ -171,9 +153,10 @@ const resolvers = {
         await redis.del("reports");
         return report;
       } catch (error) {
-        throw new Error("Failed add report");
+        throwApiError(error);
       }
     },
+
     createUser: async (_, args) => {
       try {
         const { name, email, password, gender, phoneNumber, address } =
