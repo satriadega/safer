@@ -71,6 +71,9 @@ class UserController {
   static async getUserById(req, res, next) {
     try {
       const { id } = req.params;
+      if (req.user.id !== id) {
+        throw { name: "Status false" };
+      }
       const user = await User.findByPk(id);
       if (!user) {
         throw { name: "Not Found" };
