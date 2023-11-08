@@ -6,11 +6,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { gql, useMutation } from "@apollo/client";
+import alertErrors from "../utils/alertErrors";
 
 export default function RegisterScreen({ navigation }) {
   const ADD_USER = gql`
@@ -30,32 +31,17 @@ export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("male");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
 
   const [funcCreateUser, { data, loading, error }] = useMutation(ADD_USER, {
     onError: (err) => {
       console.log(name, email, password, phoneNumber);
-      Alert.alert(
-        err.networkError.result.errors[0].code,
-        err.networkError.result.errors[0].message
-      );
+      alertErrors(err);
     },
   });
   const submitUser = async () => {
-    // if (!name || !email || !password || !gender || !phoneNumber || !address) {
-    //   Alert.alert("Invalid Input", "Please fill in all fields");
-    //   return;
-    // }
-
-    // Regular expression for validating email
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(email)) {
-    //   Alert.alert("Invalid Input", "Invalid email format");
-    //   return;
-    // }
-
     try {
       const payload = { name, email, password, gender, phoneNumber, address };
       const { data } = await funcCreateUser({
@@ -69,7 +55,7 @@ export default function RegisterScreen({ navigation }) {
         setName("");
         setEmail("");
         setPassword("");
-        setGender("");
+        setGender("male");
         setPhoneNumber("");
         setAddress("");
         navigation.navigate("Home");
@@ -102,37 +88,48 @@ export default function RegisterScreen({ navigation }) {
             onChangeText={setName}
             value={name}
             placeholder="Name"
+            placeholderTextColor="#000"
           />
           <TextInput
             style={styles.input}
             onChangeText={setEmail}
             value={email}
             placeholder="Email"
+            placeholderTextColor="#000"
           />
           <TextInput
             style={styles.input}
             onChangeText={setPassword}
             value={password}
             placeholder="Password"
+            placeholderTextColor="#000"
             secureTextEntry={true}
           />
-          <TextInput
+          <Picker
             style={styles.input}
-            placeholder="Gender"
-            onChangeText={setGender}
-            value={gender}
-          />
+            selectedValue={gender}
+            onValueChange={(itemValue) => {
+              setGender(itemValue);
+            }}
+          >
+            <Picker.Item label="Male" value="male" />
+            <Picker.Item label="Female" value="female" />
+          </Picker>
           <TextInput
             style={styles.input}
             placeholder="Phone Number"
+            placeholderTextColor="#000"
             onChangeText={setPhoneNumber}
             value={phoneNumber}
           />
           <TextInput
-            style={styles.input}
-            placeholder="Address"
+            style={styles.multilineInput}
             onChangeText={setAddress}
             value={address}
+            multiline={true}
+            numberOfLines={5}
+            placeholder="Address"
+            placeholderTextColor="#000"
           />
           <TouchableOpacity style={styles.button} onPress={submitUser}>
             <Text style={styles.buttonText}>Register</Text>
@@ -166,13 +163,12 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   input: {
-    height: 45,
+    height: 53,
     width: "100%",
     marginBottom: 20,
     paddingHorizontal: 15,
     backgroundColor: "#f0f6fa",
-    borderRadius: 10,
-    fontSize: 14,
+    fontSize: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
@@ -186,12 +182,26 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: "100%",
     elevation: 2,
-    marginBottom: 20,
+    marginTop: 16,
   },
   buttonText: {
     color: "#fff",
     fontSize: 14,
     fontWeight: "700",
     textAlign: "center",
+  },
+  multilineInput: {
+    height: 120,
+    width: "100%",
+    marginBottom: 20,
+    padding: 15,
+    textAlignVertical: "top",
+    backgroundColor: "#f0f6fa",
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2,
   },
 });
