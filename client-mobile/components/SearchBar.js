@@ -24,6 +24,7 @@ export default function SearchBar({ mapRef }) {
             },
             2000
           );
+          clear();
         }}
         query={{
           key: process.env.GOOGLE_API_KEY,

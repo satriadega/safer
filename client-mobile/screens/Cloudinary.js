@@ -114,7 +114,7 @@ const FormUpload = ({ image, setImage }) => {
       {image && (
         <View
           style={{
-            padding: 20,
+            padding: 4,
             // borderRadius: 20,
             backgroundColor: "#f0f6fa",
             elevation: 1,
@@ -126,10 +126,10 @@ const FormUpload = ({ image, setImage }) => {
           <Image
             source={{ uri: image }}
             style={{
-              width: "50%",
-              height: "100%",
+              width: "80%",
+              height: 180,
               resizeMode: "contain",
-              borderRadius: 10,
+              borderRadius: 3,
               objectFit: "cover",
             }}
           />
