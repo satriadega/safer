@@ -47,17 +47,21 @@ const FormUpload = ({ image, setImage }) => {
   };
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      quality: 0.7,
-      base64: true,
-    });
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        quality: 0.7,
+        base64: true,
+      });
 
-    console.log(result.assets[0].base64, "ininih");
-    console.log(result.canceled);
-    if (!result.canceled) {
-      setImage(`data:image/jpg;base64,${result.assets[0].base64}`);
+      // console.log(result.assets[0].base64, "ininih");
+      console.log(result.canceled);
+      if (!result.canceled) {
+        setImage(`data:image/jpg;base64,${result.assets[0].base64}`);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -70,15 +74,18 @@ const FormUpload = ({ image, setImage }) => {
   }
 
   const openCamera = async () => {
-    const result = await ImagePicker.launchCameraAsync({
-      quality: 0.7,
-      base64: true,
-    });
-
-    console.log(result.assets[0].base64, "dapet nih");
-    if (!result.canceled) {
-      console.log(result.assets[0].uri);
-      setImage(`data:image/jpg;base64,${result.assets[0].base64}`);
+    try {
+      const result = await ImagePicker.launchCameraAsync({
+        quality: 0.7,
+        base64: true,
+      });
+      // console.log(result.assets[0].base64, "dapet nih");
+      if (!result.canceled) {
+        console.log(result.assets[0].uri);
+        setImage(`data:image/jpg;base64,${result.assets[0].base64}`);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -89,7 +96,7 @@ const FormUpload = ({ image, setImage }) => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          paddingVertical: 20,
+          marginBottom: 20,
         }}
       >
         <TouchableOpacity title="Pick Image" onPress={() => pickImage()}>
@@ -107,11 +114,11 @@ const FormUpload = ({ image, setImage }) => {
       {image && (
         <View
           style={{
-            padding: 20,
-            borderRadius: 20,
+            padding: 4,
+            // borderRadius: 20,
             backgroundColor: "#f0f6fa",
             elevation: 1,
-            margin: 1,
+            // margin: 1,
             display: "flex",
             alignItems: "center",
           }}
@@ -119,10 +126,10 @@ const FormUpload = ({ image, setImage }) => {
           <Image
             source={{ uri: image }}
             style={{
-              width: "50%",
-              height: 150,
+              width: "80%",
+              height: 180,
               resizeMode: "contain",
-              borderRadius: 10,
+              borderRadius: 3,
               objectFit: "cover",
             }}
           />
@@ -132,10 +139,10 @@ const FormUpload = ({ image, setImage }) => {
         <View
           style={{
             padding: 60,
-            borderRadius: 20,
+            // borderRadius: 20,
             backgroundColor: "#f0f6fa",
             elevation: 1,
-            margin: 1,
+            // margin: 1,
             display: "flex",
             alignItems: "center",
           }}
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    margin: 6,
+    // margin: 6,
   },
   buttonModalView: {
     flexDirection: "row",
@@ -177,7 +184,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f6fa",
     paddingVertical: 15,
     paddingHorizontal: 60,
-    borderRadius: 10,
     elevation: 1,
     objectFit: "cover",
   },

@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
 
 const alertErrors = (err) => {
+  console.log(err.networkError.result);
   const message = err.networkError.result.errors[0].message;
   let messages = ``;
   const arrayOfMessage = message.split(",");

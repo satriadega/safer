@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
+import alertErrors from "../utils/alertErrors";
 
 const LOGIN_USER = gql`
   mutation Mutation($email: String!, $password: String!) {
@@ -26,10 +27,7 @@ const LOGIN_USER = gql`
 export default function LoginScreen({ navigation }) {
   const [funcUploadLogin, { data, loading, error }] = useMutation(LOGIN_USER, {
     onError: (err) => {
-      Alert.alert(
-        err.networkError.result.errors[0].code,
-        err.networkError.result.errors[0].message
-      );
+      alertErrors(err);
     },
   });
 
@@ -64,7 +62,10 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{ flex: 1, padding: 12 }}>
+      <ScrollView
+        style={{ flex: 1, padding: 12 }}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={{ height: 80 }}>
           <TouchableOpacity
             style={styles.backButton}
@@ -98,6 +99,7 @@ export default function LoginScreen({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="Email"
+            placeholderTextColor="#000"
             value={loginForm.email}
             onChangeText={(e) => setLoginForm({ ...loginForm, email: e })}
           />
@@ -105,6 +107,7 @@ export default function LoginScreen({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="Password"
+            placeholderTextColor="#000"
             secureTextEntry={true}
             value={loginForm.password}
             onChangeText={(e) => setLoginForm({ ...loginForm, password: e })}
@@ -154,13 +157,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   input: {
-    height: 45,
+    height: 53,
     width: "100%",
     marginBottom: 20,
     paddingHorizontal: 15,
     backgroundColor: "#f0f6fa",
-    borderRadius: 10,
-    fontSize: 14,
+    fontSize: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
@@ -171,14 +173,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#015C92",
     paddingVertical: 12,
     paddingHorizontal: 25,
-    borderRadius: 25,
+    borderRadius: 3,
+    marginTop: 10,
     width: "100%",
     elevation: 2,
     marginBottom: 50,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "700",
     textAlign: "center",
   },

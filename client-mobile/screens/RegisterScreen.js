@@ -37,7 +37,7 @@ export default function RegisterScreen({ navigation }) {
 
   const [funcCreateUser, { data, loading, error }] = useMutation(ADD_USER, {
     onError: (err) => {
-      console.log(name, email, password, phoneNumber);
+      console.log(err);
       alertErrors(err);
     },
   });
@@ -179,14 +179,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#015C92",
     paddingVertical: 12,
     paddingHorizontal: 25,
-    borderRadius: 25,
+    borderRadius: 3,
     width: "100%",
     elevation: 2,
     marginTop: 16,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "700",
     textAlign: "center",
   },
