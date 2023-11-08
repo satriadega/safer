@@ -73,6 +73,7 @@ export default function AddReportScreen({ route }) {
       },
       onCompleted: () => {
         navigation.navigate("Home");
+        setLoading(false);
       },
     }
   );
@@ -116,7 +117,6 @@ export default function AddReportScreen({ route }) {
         });
         console.log("jalan nich");
       } else {
-        setLoading(true);
         let base64Img = photo;
         let apiUrl = "https://api.cloudinary.com/v1_1/dapqihnih/image/upload";
         let data = {
@@ -126,6 +126,7 @@ export default function AddReportScreen({ route }) {
         };
         console.log("sini boss");
         console.log("upload cloudinary");
+        setLoading(true);
         fetch(apiUrl, {
           body: JSON.stringify(data),
           headers: {
@@ -156,7 +157,6 @@ export default function AddReportScreen({ route }) {
             console.log(err);
           });
       }
-      setLoading(false);
     } catch (err) {
       console.log(err);
     }

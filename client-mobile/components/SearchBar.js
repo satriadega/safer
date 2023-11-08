@@ -8,9 +8,11 @@ import Constants from "expo-constants";
 //   const [value, setValue] = useState("")
 
 export default function SearchBar({ mapRef }) {
+  const ref = useRef();
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
+        ref={ref}
         fetchDetails={true}
         placeholder="Search"
         onPress={(data, details = null) => {
@@ -24,7 +26,7 @@ export default function SearchBar({ mapRef }) {
             },
             2000
           );
-          clear();
+          ref?.current?.setAddressText("");
         }}
         query={{
           key: process.env.GOOGLE_API_KEY,
