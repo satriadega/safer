@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { GOOGLE_API_KEY } from "@env";
+// import { GOOGLE_API_KEY } from "@env";
 import Constants from "expo-constants";
 
 // export default function SearchBar() {

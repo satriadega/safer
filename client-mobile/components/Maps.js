@@ -79,63 +79,77 @@ export default function Maps({ mapRef }) {
   useEffect(() => {
     const getPermissions = async () => {
       setLoading(true);
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        // disini set errMsg && setloading jadi false
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        console.log(status);
+        let currentLocation = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Low,
+        });
+        setLocation(currentLocation);
         setLoading(false);
-        console.log("Please grant location permissions");
-        return;
+      } catch (err) {
+        console.log(err);
+        setLocation({
+          coords: {
+            accuracy: 100,
+            altitude: 49.70000076293945,
+            altitudeAccuracy: 33.497474670410156,
+            heading: 0,
+            latitude: -6.2925119,
+            longitude: 106.6757232,
+            speed: 0,
+          },
+          mocked: false,
+          timestamp: 1699444421703,
+        });
+        setLoading(false);
       }
-
-      let currentLocation = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Low,
-      });
-
-      setLocation(currentLocation);
-      setLoading(false);
-      setErrMSg("");
     };
     getPermissions();
+    setLoading(false);
   }, []);
 
   // jika errMsg nya true return text error
 
   return (
     <View style>
-      {loading && (
+      {loading ? (
         <View style={{ height: "100%" }}>
           <Loading />
         </View>
+      ) : (
+        <>
+          <MapView
+            ref={mapRef}
+            style={styles.map}
+            customMapStyle={mapStyle}
+            provider={PROVIDER_GOOGLE}
+            onLongPress={(e) => {
+              navigation.navigate("Add-Report", {
+                coordinate: e.nativeEvent.coordinate,
+              });
+            }}
+            camera={{
+              center: {
+                latitude: location?.coords?.latitude,
+                longitude: location?.coords?.longitude,
+              },
+              pitch: 0,
+              heading: 0,
+              zoom: 15,
+            }}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            minZoomLevel={7}
+            maxZoomLevel={18}
+            // mapPadding={{ bottom: 100, right: 10, left: 13 }} //ios
+            mapPadding={{ top: 80, right: 10, left: 13 }} //android
+          >
+            <MarkerPin />
+          </MapView>
+          <Popover />
+        </>
       )}
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        customMapStyle={mapStyle}
-        provider={PROVIDER_GOOGLE}
-        onLongPress={(e) => {
-          navigation.navigate("Add-Report", {
-            coordinate: e.nativeEvent.coordinate,
-          });
-        }}
-        camera={{
-          center: {
-            latitude: location?.coords?.latitude,
-            longitude: location?.coords?.longitude,
-          },
-          pitch: 0,
-          heading: 0,
-          zoom: 15,
-        }}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        minZoomLevel={7}
-        maxZoomLevel={18}
-        // mapPadding={{ bottom: 100, right: 10, left: 13 }} //ios
-        mapPadding={{ top: 80, right: 10, left: 13 }} //android
-      >
-        <MarkerPin />
-      </MapView>
-      <Popover />
     </View>
   );
 }

@@ -161,7 +161,7 @@ export default function ReportDetailsScreen({ route }) {
 
   const report = data.report;
   const allVotes = dataVote?.voteByReport;
-  console.log(allVotes, "<><><>");
+  console.log(allVotes, "votes");
 
   return (
     <SafeAreaView style={styles.container}>

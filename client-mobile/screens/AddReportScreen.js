@@ -150,16 +150,17 @@ export default function AddReportScreen({ route }) {
           >
             <Ionicons name="arrow-back" size={24} color="white" />
           </TouchableOpacity>
-          <Text style={styles.header}>New Report</Text>
         </View>
         <View style={{ flex: 1, padding: 12 }}>
           {access_token ? (
             <React.Fragment>
+              <Text style={styles.header}>New Report</Text>
               <TextInput
                 style={styles.input}
                 onChangeText={setTitle}
                 value={title}
                 placeholder="Title"
+                placeholderTextColor="#000"
               />
               <TextInput
                 style={styles.multilineInput}
@@ -168,17 +169,15 @@ export default function AddReportScreen({ route }) {
                 multiline={true}
                 numberOfLines={5}
                 placeholder="Description"
+                placeholderTextColor="#000"
               />
               <View
                 style={{
-                  borderRadius: 10,
                   overflow: "hidden",
-                  elevation: 1,
-                  margin: 1,
                 }}
               >
                 <Picker
-                  style={{ backgroundColor: "#f0f6fa", height: 50 }}
+                  style={styles.input}
                   selectedValue={typeId}
                   onValueChange={(itemValue) => {
                     console.log(itemValue);
@@ -190,6 +189,7 @@ export default function AddReportScreen({ route }) {
                       key={type.id}
                       label={type.name}
                       value={type.id.toString()}
+                      style={styles.input}
                     />
                   ))}
                 </Picker>
@@ -199,7 +199,9 @@ export default function AddReportScreen({ route }) {
                 style={styles.submitButton}
                 onPress={submitReport}
               >
-                <Text style={{ color: "white", fontWeight: "700" }}>
+                <Text
+                  style={{ color: "#fff", fontSize: 18, fontWeight: "700" }}
+                >
                   Submit
                 </Text>
               </TouchableOpacity>
@@ -218,7 +220,7 @@ export default function AddReportScreen({ route }) {
                 style={{
                   width: 100,
                   height: 100,
-                  borderRadius: 15,
+                  borderRadius: 15, // don't change
                   marginBottom: 20,
                 }}
                 source={require("../assets/safer-logo2.png")}
@@ -253,10 +255,12 @@ export default function AddReportScreen({ route }) {
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 10 },
   header: {
-    textAlign: "center",
-    top: 30,
-    fontWeight: "700",
     fontSize: 24,
+    fontWeight: "700",
+    marginTop: 0,
+    marginBottom: 20,
+    // textAlign: "center",
+    color: "#333",
   },
   backButton: {
     position: "absolute",
@@ -268,14 +272,17 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   input: {
-    height: 45,
+    height: 53,
     width: "100%",
     marginBottom: 20,
     paddingHorizontal: 15,
     backgroundColor: "#f0f6fa",
-    borderRadius: 10,
-    fontSize: 14,
-    elevation: 1,
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2,
   },
   multilineInput: {
     height: 120,
@@ -284,25 +291,23 @@ const styles = StyleSheet.create({
     padding: 15,
     textAlignVertical: "top",
     backgroundColor: "#f0f6fa",
-    borderRadius: 10,
-    fontSize: 14,
+    fontSize: 16,
     elevation: 1,
   },
   picker: {
     height: 45,
     borderWidth: 1,
-    borderRadius: 10,
     marginBottom: 20,
     backgroundColor: "#f0f6fa",
     shadowColor: "#000",
     elevation: 1,
-    fontSize: 12,
+    fontSize: 16,
   },
   submitButton: {
     backgroundColor: "#015C92",
     paddingVertical: 12,
     paddingHorizontal: 25,
-    borderRadius: 25,
+    borderRadius: 3,
     shadowColor: "#000",
     elevation: 2,
     marginVertical: 20,
