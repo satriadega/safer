@@ -1,8 +1,11 @@
 const request = require("supertest");
 const app = require("../app");
 const { User } = require("../models");
+const { signToken } = require("../helpers/jwt");
 
+let validToken;
 let userId;
+
 const userTest = {
   name: "tester1",
   email: "tester@mail.com",
@@ -15,6 +18,7 @@ const userTest = {
 beforeAll(async () => {
   let result = await User.create(userTest);
   userId = result.id;
+  validToken = signToken({ id: result.id, email: result.email }, "XdfggtFhgfs");
 });
 
 afterAll(async () => {
@@ -221,17 +225,35 @@ describe("POST /login", function () {
 
 describe("GET /users/:id", function () {
   it("get data user with id as request params and return status 200", async () => {
-    const response = await request(app).get("/users/" + userId);
+    const response = await request(app)
+      .get("/users/" + userId)
+      .set("access_token", validToken);
 
     expect(response.status).toBe(200);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("user");
   });
 
-  it("failed get user with invalid id as request params and return status 404", async () => {
-    const response = await request(app).get("/users/420");
-    expect(response.status).toBe(404);
+  it("should return error if get user without token and return status 401", async () => {
+    const response = await request(app).get("/users/" + userId);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message", "Invalid token");
+  });
+
+  it("should return error if get user with invalid token and return status 401", async () => {
+    const response = await request(app).get("/users/" + userId);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message", "Invalid token");
+  });
+
+  it("failed get user with invalid id as request params and return status 403", async () => {
+    const response = await request(app)
+      .get("/users/420")
+      .set("access_token", validToken);
+    expect(response.status).toBe(403);
     expect(response.body).toBeInstanceOf(Object);
-    expect(response.body).toHaveProperty("message", "Error Not Found");
+    expect(response.body).toHaveProperty("message", "You are not authorized");
   });
 });
