@@ -82,6 +82,7 @@ const typeDefs = `#graphql
     reports: [Report]
     report(id: ID!): Report
     types: [Type]
+    user(id: ID!): User
   }
 
   type Mutation {
@@ -132,6 +133,21 @@ const resolvers = {
       try {
         const { data: types } = await axios.get(`${APP_SERVICE_URL}/types`);
         return types;
+      } catch (error) {
+        throwApiError(error);
+      }
+    },
+
+    user: async (_, args, context) => {
+      try {
+        const {
+          data: { user },
+        } = await axios.get(`${APP_SERVICE_URL}/users/` + args.id, {
+          headers: {
+            access_token: context.access_token,
+          },
+        });
+        return user;
       } catch (error) {
         throwApiError(error);
       }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1699438772551" clover="3.2.0">
-  <project timestamp="1699438772551" name="All files">
-    <metrics statements="335" coveredstatements="313" conditionals="83" coveredconditionals="70" methods="35" coveredmethods="34" elements="453" coveredelements="417" complexity="0" loc="335" ncloc="335" packages="6" files="21" classes="21"/>
+<coverage generated="1699648481372" clover="3.2.0">
+  <project timestamp="1699648481372" name="All files">
+    <metrics statements="335" coveredstatements="313" conditionals="83" coveredconditionals="71" methods="35" coveredmethods="34" elements="453" coveredelements="418" complexity="0" loc="335" ncloc="335" packages="6" files="21" classes="21"/>
     <package name="app">
       <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="app.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\app.js">
+      <file name="app.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\app.js">
         <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -22,7 +22,7 @@
     </package>
     <package name="app.controllers">
       <metrics statements="146" coveredstatements="127" conditionals="53" coveredconditionals="45" methods="13" coveredmethods="12"/>
-      <file name="reportController.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\controllers\reportController.js">
+      <file name="reportController.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\controllers\reportController.js">
         <metrics statements="34" coveredstatements="32" conditionals="9" coveredconditionals="9" methods="3" coveredmethods="3"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -59,7 +59,7 @@
         <line num="82" count="1" type="stmt"/>
         <line num="87" count="4" type="stmt"/>
       </file>
-      <file name="typeController.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\controllers\typeController.js">
+      <file name="typeController.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\controllers\typeController.js">
         <metrics statements="16" coveredstatements="14" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="1" count="4" type="stmt"/>
         <line num="5" count="6" type="stmt"/>
@@ -78,7 +78,7 @@
         <line num="29" count="0" type="stmt"/>
         <line num="34" count="4" type="stmt"/>
       </file>
-      <file name="userController.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\controllers\userController.js">
+      <file name="userController.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\controllers\userController.js">
         <metrics statements="39" coveredstatements="37" conditionals="16" coveredconditionals="14" methods="3" coveredmethods="3"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -120,7 +120,7 @@
         <line num="86" count="1" type="stmt"/>
         <line num="91" count="4" type="stmt"/>
       </file>
-      <file name="voteController.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\controllers\voteController.js">
+      <file name="voteController.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\controllers\voteController.js">
         <metrics statements="57" coveredstatements="44" conditionals="24" coveredconditionals="18" methods="5" coveredmethods="4"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -182,8 +182,8 @@
       </file>
     </package>
     <package name="app.helpers">
-      <metrics statements="22" coveredstatements="21" conditionals="2" coveredconditionals="1" methods="5" coveredmethods="5"/>
-      <file name="bcrypt.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\helpers\bcrypt.js">
+      <metrics statements="22" coveredstatements="21" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
+      <file name="bcrypt.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\helpers\bcrypt.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -193,7 +193,7 @@
         <line num="9" count="2" type="stmt"/>
         <line num="12" count="4" type="stmt"/>
       </file>
-      <file name="geocoder.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\helpers\geocoder.js">
+      <file name="geocoder.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\helpers\geocoder.js">
         <metrics statements="8" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -204,10 +204,10 @@
         <line num="20" count="3" type="stmt"/>
         <line num="24" count="4" type="stmt"/>
       </file>
-      <file name="jwt.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\helpers\jwt.js">
-        <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
+      <file name="jwt.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\helpers\jwt.js">
+        <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="4" type="stmt"/>
-        <line num="2" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="2" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="4" count="4" type="stmt"/>
         <line num="5" count="4" type="stmt"/>
         <line num="8" count="4" type="stmt"/>
@@ -217,7 +217,7 @@
     </package>
     <package name="app.middleware">
       <metrics statements="65" coveredstatements="64" conditionals="18" coveredconditionals="17" methods="5" coveredmethods="5"/>
-      <file name="authentication.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\middleware\authentication.js">
+      <file name="authentication.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\middleware\authentication.js">
         <metrics statements="17" coveredstatements="16" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -237,7 +237,7 @@
         <line num="30" count="10" type="stmt"/>
         <line num="34" count="4" type="stmt"/>
       </file>
-      <file name="authorization.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\middleware\authorization.js">
+      <file name="authorization.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\middleware\authorization.js">
         <metrics statements="17" coveredstatements="17" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1"/>
         <line num="1" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -257,7 +257,7 @@
         <line num="26" count="5" type="stmt"/>
         <line num="30" count="4" type="stmt"/>
       </file>
-      <file name="errorHandler.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\middleware\errorHandler.js">
+      <file name="errorHandler.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\middleware\errorHandler.js">
         <metrics statements="31" coveredstatements="31" conditionals="8" coveredconditionals="8" methods="3" coveredmethods="3"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="49" type="stmt"/>
@@ -294,7 +294,7 @@
     </package>
     <package name="app.models">
       <metrics statements="48" coveredstatements="47" conditionals="10" coveredconditionals="7" methods="12" coveredmethods="12"/>
-      <file name="index.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\models\index.js">
+      <file name="index.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\models\index.js">
         <metrics statements="21" coveredstatements="20" conditionals="10" coveredconditionals="7" methods="3" coveredmethods="3"/>
         <line num="3" count="4" type="stmt"/>
         <line num="4" count="4" type="stmt"/>
@@ -318,7 +318,7 @@
         <line num="41" count="4" type="stmt"/>
         <line num="43" count="4" type="stmt"/>
       </file>
-      <file name="report.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\models\report.js">
+      <file name="report.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\models\report.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -328,7 +328,7 @@
         <line num="17" count="4" type="stmt"/>
         <line num="78" count="4" type="stmt"/>
       </file>
-      <file name="type.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\models\type.js">
+      <file name="type.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\models\type.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -336,7 +336,7 @@
         <line num="15" count="4" type="stmt"/>
         <line num="32" count="4" type="stmt"/>
       </file>
-      <file name="user.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\models\user.js">
+      <file name="user.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\models\user.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -348,7 +348,7 @@
         <line num="76" count="8" type="stmt"/>
         <line num="78" count="4" type="stmt"/>
       </file>
-      <file name="vote.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\models\vote.js">
+      <file name="vote.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\models\vote.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -360,7 +360,7 @@
     </package>
     <package name="app.routes">
       <metrics statements="42" coveredstatements="42" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\routes\index.js">
+      <file name="index.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\routes\index.js">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -376,7 +376,7 @@
         <line num="13" count="4" type="stmt"/>
         <line num="15" count="4" type="stmt"/>
       </file>
-      <file name="reportRoute.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\routes\reportRoute.js">
+      <file name="reportRoute.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\routes\reportRoute.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -387,7 +387,7 @@
         <line num="8" count="4" type="stmt"/>
         <line num="10" count="4" type="stmt"/>
       </file>
-      <file name="typeRoute.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\routes\typeRoute.js">
+      <file name="typeRoute.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\routes\typeRoute.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -395,7 +395,7 @@
         <line num="5" count="4" type="stmt"/>
         <line num="7" count="4" type="stmt"/>
       </file>
-      <file name="userRoute.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\routes\userRoute.js">
+      <file name="userRoute.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\routes\userRoute.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -404,7 +404,7 @@
         <line num="6" count="4" type="stmt"/>
         <line num="8" count="4" type="stmt"/>
       </file>
-      <file name="voteRoute.js" path="D:\Mystick\Works\OpenProject\2023\code\javascript\safer\server\services\app\routes\voteRoute.js">
+      <file name="voteRoute.js" path="C:\Users\satri\OneDrive\Documents\code\github\2023\safer2\safer\server\services\app\routes\voteRoute.js">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>

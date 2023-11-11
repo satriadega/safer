@@ -337,9 +337,9 @@ DA:12,4
 LF:7
 LH:7
 BRDA:2,0,0,4
-BRDA:2,0,1,0
+BRDA:2,0,1,4
 BRF:2
-BRH:1
+BRH:2
 end_of_record
 TN:
 SF:middleware\authentication.js
