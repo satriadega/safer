@@ -165,7 +165,10 @@ export default function ReportDetailsScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView nestedScrollEnabled={true}>
+      <ScrollView
+        nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
+      >
         <View>
           <Image
             style={styles.image}

@@ -169,7 +169,10 @@ export default function ReportListScreen({ navigation }) {
         </View>
       </View>
       <SafeAreaView style={styles.container}>
-        <ScrollView style={{ flex: 1, padding: 12 }}>
+        <ScrollView
+          style={{ flex: 1, padding: 12 }}
+          keyboardShouldPersistTaps="handled"
+        >
           {finalFilterData?.map((report) => (
             <ReportCard
               data={report}

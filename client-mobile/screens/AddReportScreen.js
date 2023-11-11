@@ -180,7 +180,10 @@ export default function AddReportScreen({ route }) {
         </View>
       ) : (
         <>
-          <ScrollView style={{ flex: 1, padding: 12 }}>
+          <ScrollView
+            style={{ flex: 1, padding: 12 }}
+            keyboardShouldPersistTaps="handled"
+          >
             <View style={{ height: 80 }}>
               <TouchableOpacity
                 style={styles.backButton}

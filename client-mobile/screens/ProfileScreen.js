@@ -9,19 +9,60 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/core";
-import UserProfile from "../components/UserProfile";
 import { Ionicons } from "@expo/vector-icons";
+import { gql, useMutation, useQuery } from "@apollo/client";
+
+const GET_USER = gql`
+  query GetUser($userId: ID!) {
+    user(id: $userId) {
+      address
+      email
+      gender
+      id
+      name
+      password
+      phoneNumber
+    }
+  }
+`;
 
 export default function ProfileScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [access_token, setAccessToken] = useState("");
+  const [id, setId] = useState("");
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    gender: "",
+    phoneNumber: "",
+    address: "",
+  });
+
+  const {
+    loading: loadingUser,
+    error,
+    data: dataUser,
+    refetch,
+  } = useQuery(GET_USER, {
+    variables: {
+      userId: +id,
+    },
+    context: {
+      headers: {
+        access_token: access_token,
+      },
+    },
+  });
 
   // const decoded = jwtDecode(access_token);
   // console.log(decoded, "<<<>>>DECODED");
   const funcAccessToken = async () => {
     try {
       const getAccessToken = await AsyncStorage.getItem("access_token");
+      const getId = await AsyncStorage.getItem("id");
+
       setAccessToken(getAccessToken);
+      setId(getId);
     } catch (err) {
       console.log(err);
     }
@@ -30,7 +71,8 @@ export default function ProfileScreen({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       funcAccessToken();
-    }, [])
+      refetch();
+    }, [id])
   );
 
   const handelLogout = async () => {
@@ -59,18 +101,24 @@ export default function ProfileScreen({ navigation }) {
               size={50}
               color="#015C92"
             />
-            <View>
-              <Text style={styles.username}>Username</Text>
-              <Text style={styles.data}>user@example.com</Text>
-              <Text style={styles.data}>+62821092873</Text>
-              <Text style={styles.data}>Male</Text>
-              <Text style={styles.data}>Address</Text>
-            </View>
-            <View style={{ marginVertical: 20 }}>
-              <Pressable style={styles.button} onPress={handelLogout}>
-                <Text style={styles.buttonText}>Logout</Text>
-              </Pressable>
-            </View>
+            {dataUser && (
+              <>
+                <View>
+                  <Text style={styles.username}>{dataUser?.user.name}</Text>
+                  <Text style={styles.data}>{dataUser?.user.email}</Text>
+                  <Text style={styles.data}>{dataUser?.user.phoneNumber}</Text>
+                  <Text style={styles.data}>{dataUser?.user.gender}</Text>
+                  <Text style={styles.justifyData}>
+                    {dataUser?.user.address}
+                  </Text>
+                </View>
+                <View style={{ marginVertical: 20 }}>
+                  <Pressable style={styles.button} onPress={handelLogout}>
+                    <Text style={styles.buttonText}>Logout</Text>
+                  </Pressable>
+                </View>
+              </>
+            )}
           </View>
         </>
       ) : (
@@ -150,10 +198,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 5,
     textAlign: "center",
+    width: 250,
   },
   data: {
     fontSize: 16,
     color: "#555",
     textAlign: "center",
+    width: 250,
+    marginTop: 10,
+  },
+  justifyData: {
+    fontSize: 16,
+    color: "#555",
+    textAlign: "justify",
+    width: 250,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
