@@ -57,7 +57,7 @@ class VoteController {
       }
 
       const checkAlreadyPost = await Vote.findAll({
-        where: { ReportId: +ReportId },
+        where: { ReportId: +ReportId, UserId: +userId },
       });
 
       // Activate when going live
@@ -79,7 +79,8 @@ class VoteController {
         where: { status: "dislike", ReportId: +ReportId },
       });
 
-      if (countDislike.length >= 6) {
+      // dislike threshold
+      if (countDislike.length >= 0) {
         await Report.update(
           {
             isActive: false,
@@ -136,7 +137,7 @@ class VoteController {
       const { id } = req.params;
       const voteByReport = await Vote.findAll({
         where: {
-          ReportId: id,
+          ReportId: +id,
         },
         include: [User],
       });

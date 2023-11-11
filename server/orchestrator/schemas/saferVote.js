@@ -123,9 +123,10 @@ const resolvers = {
     voteByReport: async (_, args) => {
       try {
         const { data: voteByReport } = await axios.get(
-          `${APP_SERVICE_URL}/votes/${args.id}`
+          `${APP_SERVICE_URL}/votes/report/${args.id}`
         );
         console.log("voteByReport", voteByReport);
+        await redis.del("reports");
         return voteByReport;
       } catch (error) {
         throwApiError(error);

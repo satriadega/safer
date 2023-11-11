@@ -57,6 +57,7 @@ class ReportController {
       const reports = await Report.findAll({
         include: [Type, User],
         order: [["createdAt", "DESC"]],
+        where: { isActive: true },
       });
       res.status(200).json(reports);
       console.log(reports);

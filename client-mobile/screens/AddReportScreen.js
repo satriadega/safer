@@ -183,6 +183,8 @@ export default function AddReportScreen({ route }) {
           <ScrollView
             style={{ flex: 1, padding: 12 }}
             keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           >
             <View style={{ height: 80 }}>
               <TouchableOpacity

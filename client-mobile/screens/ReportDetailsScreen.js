@@ -13,7 +13,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { GET_REPORT_DETAILS } from "../config/queries";
+import { GET_REPORT_DETAILS, GET_REPORTS } from "../config/queries";
 import Loading from "../components/Loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Foundation } from "@expo/vector-icons";
@@ -80,7 +80,7 @@ export default function ReportDetailsScreen({ route }) {
 
   const [funcCreateVote, { data: vote, loadingm, error: voteError }] =
     useMutation(ADD_VOTE, {
-      refetchQueries: [GET_REPORT_DETAILS, GET_VOTEBYID],
+      refetchQueries: [GET_REPORT_DETAILS, GET_VOTEBYID, GET_REPORTS],
       context: {
         headers: {
           access_token: access_token,
@@ -168,12 +168,14 @@ export default function ReportDetailsScreen({ route }) {
       <ScrollView
         nestedScrollEnabled={true}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
       >
         <View>
           <Image
             style={styles.image}
             source={{
-              uri: report.mainImage,
+              uri: report.mainImage || "https://via.placeholder.com/150",
             }}
           />
           <TouchableOpacity
