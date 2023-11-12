@@ -80,7 +80,7 @@ class VoteController {
       });
 
       // dislike threshold
-      if (countDislike.length >= 0) {
+      if (countDislike.length >= 1) {
         await Report.update(
           {
             isActive: false,

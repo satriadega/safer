@@ -18,6 +18,7 @@ import Loading from "../components/Loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Foundation } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import alertErrors from "../utils/alertErrors";
 
 const ADD_VOTE = gql`
   mutation Mutation($newVote: VoteInput!) {
@@ -70,7 +71,7 @@ export default function ReportDetailsScreen({ route }) {
       voteByReportId: id,
     },
   });
-  const hasVoted = dataVote?.voteByReport?.find(
+  let hasVoted = dataVote?.voteByReport?.find(
     (item) => +item.UserId === +userId
   );
   const likes =
@@ -87,9 +88,12 @@ export default function ReportDetailsScreen({ route }) {
         },
       },
       onCompleted: () => {
-        console.log("on completed testtestset");
         setComment("");
         setStatus("");
+      },
+      onError: (err) => {
+        console.log(err);
+        alertErrors(err);
       },
     });
 
@@ -165,255 +169,283 @@ export default function ReportDetailsScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        nestedScrollEnabled={true}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        <View>
-          <Image
-            style={styles.image}
-            source={{
-              uri: report.mainImage || "https://via.placeholder.com/150",
-            }}
-          />
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Ionicons name="arrow-back" size={24} color="black" />
-          </TouchableOpacity>
+      {loadingm ? (
+        <View style={{ height: "100%" }}>
+          <Loading />
+        </View>
+      ) : (
+        <ScrollView
+          nestedScrollEnabled={true}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          <View>
+            <Image
+              style={styles.image}
+              source={{
+                uri: report.mainImage || "https://via.placeholder.com/150",
+              }}
+            />
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <Ionicons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
 
-          <View style={styles.box}>
-            <Text style={[styles.textLarge, styles.textSizeLarge]}>
-              {report.title}
-            </Text>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginVertical: 8,
-              }}
-            >
-              <View style={{ flex: 0.55 }}>
-                <Ionicons name="ios-location-sharp" size={18} color="#015C92" />
-              </View>
-              <View style={{ flex: 6 }}>
-                <Text style={[styles.textMedium, styles.textSizeSmall]}>
-                  {report.location}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginVertical: 8,
-                gap: 8,
-                alignItems: "center",
-              }}
-            >
-              <Ionicons name="person" size={18} color="#015C92" />
-              <Text style={[styles.textMedium, styles.textSizeSmall]}>
-                Reported by: {report?.User?.name}
+            <View style={styles.box}>
+              <Text style={[styles.textLarge, styles.textSizeLarge]}>
+                {report.title}
               </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginVertical: 8,
-                gap: 8,
-                alignItems: "center",
-              }}
-            >
-              <MaterialIcons name="date-range" size={18} color="#015C92" />
-              <Text style={[styles.textMedium, styles.textSizeSmall]}>
-                {DateFormatter(report.createdAt)}
-              </Text>
-            </View>
-            <Text
-              style={[
-                styles.textMedium,
-                styles.textSizeLarge,
-                {
-                  backgroundColor: "#fff",
-                  padding: 12,
-                  borderRadius: 10,
-                  elevation: 2,
-                  marginVertical: 20,
-                },
-              ]}
-            >
-              {report.description}
-            </Text>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                gap: 10,
-                marginVertical: 10,
-                justifyContent: "flex-end",
-              }}
-            >
-              <View style={styles.badge}>
-                <Foundation name="like" size={20} color="#015C92" />
-                <Text>Helpful ({likes})</Text>
-              </View>
-              <View style={styles.badge}>
-                <Foundation name="dislike" size={20} color="#015C92" />
-                <Text>Not Helpful ({dislikes})</Text>
-              </View>
-            </View>
-            <View>
-              {access_token ? (
-                <View>
-                  {hasVoted ? (
-                    <View>
-                      <Text
-                        style={{
-                          textAlign: "center",
-                          marginVertical: 15,
-                          fontWeight: "500",
-                        }}
-                      >
-                        Thanks for your feedback!
-                      </Text>
-                    </View>
-                  ) : (
-                    <View>
-                      <TextInput
-                        style={styles.input}
-                        onChangeText={setComment}
-                        value={comment}
-                        multiline={true}
-                        numberOfLines={3}
-                        underlineColorAndroid="transparent"
-                        underlineColor="transparent"
-                        placeholder="Comment"
-                      />
-                      <View
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          gap: 12,
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <TouchableOpacity
-                          onPress={submitLike}
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 5,
-                            backgroundColor: "#088395",
-                            padding: 8,
-                            elevation: 1,
-                            borderRadius: 10,
-                          }}
-                        >
-                          <Foundation name="like" size={20} color="#fff" />
-                          <Text style={{ color: "#fff" }}>Helpful</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={submitDislike}
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 5,
-                            backgroundColor: "#d11717",
-                            padding: 8,
-                            elevation: 1,
-                            borderRadius: 10,
-                          }}
-                        >
-                          <Foundation name="dislike" size={20} color="#fff" />
-                          <Text style={{ color: "#fff" }}>Not Helpful</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  )}
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginVertical: 8,
+                }}
+              >
+                <View style={{ flex: 0.55 }}>
+                  <Ionicons
+                    name="ios-location-sharp"
+                    size={18}
+                    color="#015C92"
+                  />
                 </View>
-              ) : (
-                <View
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginVertical: 20,
-                    flexDirection: "row",
-                  }}
-                >
-                  <Text style={[styles.textMedium, styles.textSizeMedium]}>
-                    <Text>Please </Text>
-                    <Text
-                      style={[
-                        styles.textMedium,
-                        styles.textSizeMedium,
-                        { color: "#015C92", paddingHorizontal: 10 },
-                      ]}
-                      onPress={() => toLogin()}
-                    >
-                      Login
-                    </Text>
-                    <Text> to leave a comment</Text>
+                <View style={{ flex: 6 }}>
+                  <Text style={[styles.textMedium, styles.textSizeSmall]}>
+                    {report.location}
                   </Text>
                 </View>
-              )}
-            </View>
-            {allVotes && allVotes.length !== 0 && (
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginVertical: 8,
+                  gap: 8,
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons name="person" size={18} color="#015C92" />
+                <Text style={[styles.textMedium, styles.textSizeSmall]}>
+                  Reported by: {report?.User?.name}
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginVertical: 8,
+                  gap: 8,
+                  alignItems: "center",
+                }}
+              >
+                <MaterialIcons name="date-range" size={18} color="#015C92" />
+                <Text style={[styles.textMedium, styles.textSizeSmall]}>
+                  {DateFormatter(report.createdAt)}
+                </Text>
+              </View>
               <Text
                 style={[
                   styles.textMedium,
-                  styles.textSizeMedium,
-                  { marginLeft: 15 },
+                  styles.textSizeLarge,
+                  {
+                    backgroundColor: "#fff",
+                    padding: 12,
+                    borderRadius: 10,
+                    elevation: 2,
+                    marginVertical: 20,
+                  },
                 ]}
               >
-                Comment(s)
+                {report.description}
               </Text>
-            )}
-            <View
-              style={{
-                borderRadius: 10,
-                display: "flex",
-                gap: 10,
-                padding: 10,
-              }}
-            >
-              {allVotes
-                ?.slice()
-                .reverse()
-                .map((vote) => (
-                  <View key={vote.id} style={styles.userComment}>
-                    <Text
-                      style={[
-                        styles.textMedium,
-                        styles.textSizeMedium,
-                        { color: "#fff" },
-                      ]}
-                    >
-                      @{vote.User.name}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.textMedium,
-                        styles.textSizeMedium,
-                        { color: "#fff" },
-                      ]}
-                    >
-                      {vote.comment}
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 10,
+                  marginVertical: 10,
+                  justifyContent: "flex-end",
+                }}
+              >
+                <View style={styles.badge}>
+                  <Foundation name="like" size={20} color="#015C92" />
+                  <Text>Helpful ({likes})</Text>
+                </View>
+                <View style={styles.badge}>
+                  <Foundation name="dislike" size={20} color="#015C92" />
+                  <Text>Not Helpful ({dislikes})</Text>
+                </View>
+              </View>
+              <View>
+                {access_token ? (
+                  <View>
+                    {hasVoted ? (
+                      <View>
+                        <Text
+                          style={{
+                            textAlign: "center",
+                            marginVertical: 15,
+                            fontWeight: "500",
+                          }}
+                        >
+                          Thanks for your feedback!
+                        </Text>
+                        <View style={styles.editVote}>
+                          <Text
+                            style={{
+                              color: "#fff",
+                              fontSize: 19,
+                              fontWeight: "500",
+                            }}
+                          >
+                            Edit your votes!
+                          </Text>
+                        </View>
+                      </View>
+                    ) : (
+                      <View>
+                        <TextInput
+                          style={styles.input}
+                          onChangeText={setComment}
+                          value={comment}
+                          multiline={true}
+                          numberOfLines={3}
+                          underlineColorAndroid="transparent"
+                          underlineColor="transparent"
+                          placeholder="Comment"
+                        />
+                        <View
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: 12,
+                            justifyContent: "flex-end",
+                          }}
+                        >
+                          <TouchableOpacity
+                            onPress={submitLike}
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 5,
+                              backgroundColor: "#088395",
+                              padding: 8,
+                              elevation: 1,
+                              borderRadius: 10,
+                            }}
+                          >
+                            <Foundation name="like" size={20} color="#fff" />
+                            <Text style={{ color: "#fff" }}>Helpful</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={submitDislike}
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 5,
+                              backgroundColor: "#d11717",
+                              padding: 8,
+                              elevation: 1,
+                              borderRadius: 10,
+                            }}
+                          >
+                            <Foundation name="dislike" size={20} color="#fff" />
+                            <Text style={{ color: "#fff" }}>Not Helpful</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    )}
+                  </View>
+                ) : (
+                  <View
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginVertical: 20,
+                      flexDirection: "row",
+                    }}
+                  >
+                    <Text style={[styles.textMedium, styles.textSizeMedium]}>
+                      <Text>Please </Text>
+                      <Text
+                        style={[
+                          styles.textMedium,
+                          styles.textSizeMedium,
+                          { color: "#015C92", paddingHorizontal: 10 },
+                        ]}
+                        onPress={() => toLogin()}
+                      >
+                        Login
+                      </Text>
+                      <Text> to leave a comment</Text>
                     </Text>
                   </View>
-                ))}
+                )}
+              </View>
+              {allVotes && allVotes.length !== 0 && (
+                <Text
+                  style={[
+                    styles.textMedium,
+                    styles.textSizeMedium,
+                    { marginLeft: 15 },
+                  ]}
+                >
+                  Comment(s)
+                </Text>
+              )}
+              <View
+                style={{
+                  borderRadius: 10,
+                  display: "flex",
+                  gap: 10,
+                  padding: 10,
+                }}
+              >
+                {allVotes
+                  ?.slice()
+                  .reverse()
+                  .map((vote) => (
+                    <View
+                      key={vote.id}
+                      style={
+                        vote.status === "like"
+                          ? styles.userComment
+                          : styles.userDislike
+                      }
+                    >
+                      <Text
+                        style={[
+                          styles.textMedium,
+                          styles.textSizeMedium,
+                          { color: "#fff" },
+                        ]}
+                      >
+                        @{vote.User.name}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.textMedium,
+                          styles.textSizeMedium,
+                          { color: "#fff" },
+                        ]}
+                      >
+                        {vote.comment}
+                      </Text>
+                    </View>
+                  ))}
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -442,6 +474,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 15,
     backgroundColor: "#088395",
+    borderRadius: 10,
+  },
+  userDislike: {
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    backgroundColor: "#d11717",
     borderRadius: 10,
   },
   box: {
@@ -495,5 +533,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 14,
     elevation: 1,
+  },
+  editVote: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#088395",
+    gap: 8,
+    borderWidth: 1,
+    borderColor: "#fff",
+    borderRadius: 10,
+    paddingHorizontal: 13,
+    paddingVertical: 7,
+    color: "#fff",
+    marginBottom: 20,
   },
 });

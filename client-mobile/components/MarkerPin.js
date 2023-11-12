@@ -93,7 +93,9 @@ export default function MarkerPin() {
               <Image
                 style={styles.image}
                 source={{
-                  uri: selectedReport.mainImage,
+                  uri:
+                    selectedReport.mainImage ||
+                    "https://via.placeholder.com/150",
                 }}
               />
             </View>

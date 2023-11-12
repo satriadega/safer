@@ -73,9 +73,11 @@ export default function ReportListScreen({ navigation }) {
             onChangeText={setSearch}
             clearButtonMode="while-editing" // This is the property for Android
           />
-          <TouchableOpacity onPress={clearInput} style={styles.clearButton}>
-            <Feather name="x-circle" size={20} color="grey" />
-          </TouchableOpacity>
+          {search !== "" && (
+            <TouchableOpacity onPress={clearInput} style={styles.clearButton}>
+              <Feather name="x-circle" size={20} color="grey" />
+            </TouchableOpacity>
+          )}
         </View>
         <View style={styles.filter}>
           <Pressable // FILTER ALL
