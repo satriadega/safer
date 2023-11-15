@@ -32,6 +32,20 @@ const ADD_VOTE = gql`
     }
   }
 `;
+
+const EDIT_VOTE = gql`
+  mutation Mutation($newVote: VoteInput!) {
+    editVote(newVote: $newVote) {
+      ReportId
+      UserId
+      comment
+      id
+      # image
+      status
+    }
+  }
+`;
+
 const GET_VOTEBYID = gql`
   query VoteByReport($voteByReportId: ID!) {
     voteByReport(id: $voteByReportId) {
@@ -46,13 +60,14 @@ const GET_VOTEBYID = gql`
   }
 `;
 
-export default function ReportDetailsScreen({ route }) {
+export default function ReportDetailsScreen({ route, location, setLocation }) {
   const navigation = useNavigation();
-  const { id } = route.params;
+  const { id } = route?.params;
   const [access_token, setAccessToken] = useState("");
 
   const [comment, setComment] = useState("");
   const [status, setStatus] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const [userId, setUserId] = useState("");
 
   const { loading, error, data, refetch } = useQuery(GET_REPORT_DETAILS, {
@@ -97,25 +112,67 @@ export default function ReportDetailsScreen({ route }) {
       },
     });
 
+  const [funcEditVote, { data: voteEdit, loadingEdit, error: voteEditError }] =
+    useMutation(EDIT_VOTE, {
+      refetchQueries: [GET_REPORT_DETAILS, GET_VOTEBYID, GET_REPORTS],
+      context: {
+        headers: {
+          access_token: access_token,
+        },
+      },
+      onCompleted: () => {
+        setComment("");
+        setStatus("");
+        setIsEdit(false);
+      },
+      onError: (err) => {
+        console.log(err);
+        alertErrors(err);
+      },
+    });
+
   const submitLike = () => {
     const payload = { ReportId: id, comment, status: "like" };
     console.log(payload, "<<<<<< PAYLOAD LIKE");
-
-    funcCreateVote({
-      variables: {
-        newVote: payload,
-      },
-    });
+    if (isEdit) {
+      let idVote = dataVote?.voteByReport.find(
+        (item) => +item.UserId === +userId
+      ).id;
+      payload.id = idVote;
+      funcEditVote({
+        variables: {
+          newVote: payload,
+        },
+      });
+    } else {
+      funcCreateVote({
+        variables: {
+          newVote: payload,
+        },
+      });
+    }
   };
   const submitDislike = () => {
     const payload = { ReportId: id, comment, status: "dislike" };
     console.log(payload, "<<<<<< PAYLOAD DISLIKE");
 
-    funcCreateVote({
-      variables: {
-        newVote: payload,
-      },
-    });
+    if (isEdit) {
+      let idVote = dataVote?.voteByReport.find(
+        (item) => +item.UserId === +userId
+      ).id;
+      payload.id = idVote;
+      funcEditVote({
+        variables: {
+          newVote: payload,
+        },
+      });
+    } else {
+      funcCreateVote({
+        variables: {
+          newVote: payload,
+        },
+      });
+    }
   };
 
   const funcAccessToken = async () => {
@@ -160,16 +217,13 @@ export default function ReportDetailsScreen({ route }) {
     return new Intl.DateTimeFormat("id-ID", options).format(newDate);
   };
 
-  if (loading) return <Loading />;
-  if (error) return <Text>No data found...</Text>;
-
-  const report = data.report;
+  const report = data?.report;
   const allVotes = dataVote?.voteByReport;
   console.log(allVotes, "votes");
 
   return (
     <SafeAreaView style={styles.container}>
-      {loadingm ? (
+      {loading || loadingm || loadingVote ? (
         <View style={{ height: "100%" }}>
           <Loading />
         </View>
@@ -284,26 +338,62 @@ export default function ReportDetailsScreen({ route }) {
               <View>
                 {access_token ? (
                   <View>
-                    {hasVoted ? (
-                      <View>
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          console.log(data);
+                        }}
+                        style={[
+                          styles.editVote,
+                          { backgroundColor: "#015C92" },
+                        ]}
+                      >
                         <Text
                           style={{
-                            textAlign: "center",
-                            marginVertical: 15,
+                            color: "#fff",
+                            fontSize: 19,
                             fontWeight: "500",
                           }}
                         >
-                          Thanks for your feedback!
+                          See Location!
                         </Text>
-                        <View style={styles.editVote}>
+                      </TouchableOpacity>
+                    </View>
+                    {hasVoted && !isEdit ? (
+                      <View>
+                        <View>
+                          <TouchableOpacity
+                            onPress={() => {
+                              let comment = dataVote?.voteByReport.find(
+                                (item) => +item.UserId === +userId
+                              ).comment;
+                              setComment(comment);
+                              setIsEdit(true);
+                              console.log(isEdit);
+                            }}
+                            style={[
+                              styles.editVote,
+                              { backgroundColor: "#088395" },
+                            ]}
+                          >
+                            <Text
+                              style={{
+                                color: "#fff",
+                                fontSize: 19,
+                                fontWeight: "500",
+                              }}
+                            >
+                              Edit your votes!
+                            </Text>
+                          </TouchableOpacity>
                           <Text
                             style={{
-                              color: "#fff",
-                              fontSize: 19,
+                              textAlign: "center",
+                              marginVertical: 15,
                               fontWeight: "500",
                             }}
                           >
-                            Edit your votes!
+                            Thanks for your feedback!
                           </Text>
                         </View>
                       </View>
@@ -539,7 +629,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#088395",
+
     gap: 8,
     borderWidth: 1,
     borderColor: "#fff",
@@ -547,6 +637,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 13,
     paddingVertical: 7,
     color: "#fff",
-    marginBottom: 20,
+    marginBottom: 5,
   },
 });

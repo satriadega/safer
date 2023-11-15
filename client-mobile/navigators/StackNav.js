@@ -7,10 +7,12 @@ import ReportDetailsScreen from "../screens/ReportDetailsScreen";
 import ReportListScreen from "../screens/ReportListScreen";
 import AddReportScreen from "../screens/AddReportScreen";
 import TabNav from "./TabNav";
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
 export default function StackNav() {
+  const [location, setLocation] = useState(null);
   return (
     <Stack.Navigator initialRouteName="Home">
       {/* <Stack.Screen name="Get-Started" component={GetStartedScreen} /> */}
@@ -33,14 +35,18 @@ export default function StackNav() {
       <Stack.Screen name="Report-List" component={ReportListScreen} />
       <Stack.Screen
         name="Home"
-        component={TabNav}
+        children={() => (
+          <TabNav location={location} setLocation={setLocation} />
+        )}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
         name="Report-Details"
-        component={ReportDetailsScreen}
+        children={() => (
+          <ReportDetailsScreen location={location} setLocation={setLocation} />
+        )}
         options={{
           headerShown: false,
         }}

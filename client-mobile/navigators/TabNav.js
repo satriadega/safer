@@ -10,12 +10,12 @@ import HomeScreen from "../screens/HomeScreen";
 
 const Tab = createBottomTabNavigator();
 
-export default function TabNav() {
+export default function TabNav({ location, setLocation }) {
   return (
     <>
       <Tab.Navigator
-      // initialRouteName="Dashboard"
-      // initialRouteName="Dashboard"
+        // initialRouteName="Dashboard"
+        // initialRouteName="Dashboard"
         screenOptions={{
           tabBarShowLabel: false,
           tabBarStyle: styles.tab,
@@ -46,7 +46,9 @@ export default function TabNav() {
         />
         <Tab.Screen
           name="Dashboard"
-          component={HomeScreen}
+          children={() => (
+            <HomeScreen location={location} setLocation={setLocation} />
+          )}
           options={{
             headerShown: false,
             tabBarIcon: ({ focused }) => {

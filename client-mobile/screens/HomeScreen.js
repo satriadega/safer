@@ -4,7 +4,7 @@ import { View } from "react-native";
 import SearchBar from "../components/SearchBar";
 import { useRef } from "react";
 
-export default function HomeScreen() {
+export default function HomeScreen({ location, setLocation }) {
   const mapRef = useRef(null);
 
   const moveToLocation = async (latitude, longitude) => {
@@ -21,7 +21,7 @@ export default function HomeScreen() {
   return (
     <View>
       <SearchBar mapRef={mapRef} moveToLocation={moveToLocation} />
-      <Maps mapRef={mapRef} />
+      <Maps mapRef={mapRef} location={location} setLocation={setLocation} />
     </View>
   );
 }

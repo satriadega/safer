@@ -166,7 +166,7 @@ const resolvers = {
             },
           }
         );
-        // await redis.del("votes");
+        await redis.del("votes");
         return vote;
       } catch (error) {
         throwApiError(error);

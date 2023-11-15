@@ -72,7 +72,7 @@ export default function AddReportScreen({ route }) {
         alertErrors(err);
       },
       onCompleted: () => {
-        navigation.navigate("Home");
+        navigation.navigate("Report List");
         setLoading(false);
       },
     }

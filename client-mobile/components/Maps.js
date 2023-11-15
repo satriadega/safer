@@ -8,7 +8,7 @@ import Loading from "../components/Loading";
 import Popover from "../components/Popover";
 import { Dimensions } from "react-native";
 
-export default function Maps({ mapRef }) {
+export default function Maps({ mapRef, location, setLocation }) {
   const navigation = useNavigation();
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
@@ -72,7 +72,6 @@ export default function Maps({ mapRef }) {
     },
   ];
 
-  const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMSg] = useState("");
 
