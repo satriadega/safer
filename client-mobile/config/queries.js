@@ -31,6 +31,8 @@ export const GET_REPORT_DETAILS = gql`
       User {
         name
       }
+      latitude
+      longitude
       location
       createdAt
     }

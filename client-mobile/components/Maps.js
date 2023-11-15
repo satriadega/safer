@@ -8,7 +8,12 @@ import Loading from "../components/Loading";
 import Popover from "../components/Popover";
 import { Dimensions } from "react-native";
 
-export default function Maps({ mapRef, location, setLocation }) {
+export default function Maps({
+  mapRef,
+  location,
+  setLocation,
+  moveToLocation,
+}) {
   const navigation = useNavigation();
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
@@ -84,7 +89,12 @@ export default function Maps({ mapRef, location, setLocation }) {
         let currentLocation = await Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.Low,
         });
-        setLocation(currentLocation);
+
+        if (location === null) {
+          console.log("default");
+          setLocation(currentLocation);
+        }
+
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -106,7 +116,13 @@ export default function Maps({ mapRef, location, setLocation }) {
     };
     getPermissions();
     setLoading(false);
-  }, []);
+    console.log(location);
+    moveToLocation(location?.coords?.latitude, location?.coords?.longitude);
+    console.log("biasa");
+    console.log(location, 555555);
+
+    // console.log(location);
+  }, [location]);
 
   // jika errMsg nya true return text error
 

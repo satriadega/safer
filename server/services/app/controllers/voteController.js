@@ -6,7 +6,10 @@ class VoteController {
     try {
       const result = await Vote.findAll({
         order: [["createdAt", "DESC"]],
-        include: [Report, User],
+        include: [
+          { model: User, attributes: { exclude: ["password"] } },
+          { model: Report },
+        ],
       });
       res.status(200).json({ result });
     } catch (err) {
@@ -139,7 +142,7 @@ class VoteController {
         where: {
           ReportId: +id,
         },
-        include: [User],
+        include: [{ model: User, attributes: { exclude: ["password"] } }],
       });
       if (!voteByReport) {
         throw { name: "Not Found" };

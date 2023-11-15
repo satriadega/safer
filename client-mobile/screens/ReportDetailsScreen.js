@@ -60,9 +60,10 @@ const GET_VOTEBYID = gql`
   }
 `;
 
-export default function ReportDetailsScreen({ route, location, setLocation }) {
+export default function ReportDetailsScreen({ params, location, setLocation }) {
+  console.log(params);
   const navigation = useNavigation();
-  const { id } = route?.params;
+  const id = params;
   const [access_token, setAccessToken] = useState("");
 
   const [comment, setComment] = useState("");
@@ -341,7 +342,17 @@ export default function ReportDetailsScreen({ route, location, setLocation }) {
                     <View>
                       <TouchableOpacity
                         onPress={() => {
-                          console.log(data);
+                          // console.log(
+                          //   data.report.latitude,
+                          //   data.report.longitude
+                          // );
+                          navigation.navigate("Dashboard");
+                          setLocation({
+                            coords: {
+                              latitude: +data.report.latitude,
+                              longitude: +data.report.longitude,
+                            },
+                          });
                         }}
                         style={[
                           styles.editVote,
@@ -504,7 +515,7 @@ export default function ReportDetailsScreen({ route, location, setLocation }) {
                   .reverse()
                   .map((vote) => (
                     <View
-                      key={vote.id}
+                      key={vote?.id}
                       style={
                         vote.status === "like"
                           ? styles.userComment

@@ -20,8 +20,13 @@ export default function HomeScreen({ location, setLocation }) {
   };
   return (
     <View>
-      <SearchBar mapRef={mapRef} moveToLocation={moveToLocation} />
-      <Maps mapRef={mapRef} location={location} setLocation={setLocation} />
+      <SearchBar mapRef={mapRef} />
+      <Maps
+        mapRef={mapRef}
+        location={location}
+        setLocation={setLocation}
+        moveToLocation={moveToLocation}
+      />
     </View>
   );
 }

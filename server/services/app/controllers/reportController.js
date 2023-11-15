@@ -55,7 +55,10 @@ class ReportController {
   static async getReportList(req, res, next) {
     try {
       const reports = await Report.findAll({
-        include: [Type, User],
+        include: [
+          { model: User, attributes: { exclude: ["password"] } },
+          { model: Type },
+        ],
         order: [["createdAt", "DESC"]],
         where: { isActive: true },
       });
@@ -71,7 +74,7 @@ class ReportController {
     try {
       const { id } = req.params;
       const report = await Report.findByPk(+id, {
-        include: [User],
+        include: [{ model: User, attributes: { exclude: ["password"] } }],
       });
       if (!report) {
         throw { name: "Not Found" };

@@ -11,7 +11,7 @@ import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
-export default function StackNav() {
+export default function StackNav({ route }) {
   const [location, setLocation] = useState(null);
   return (
     <Stack.Navigator initialRouteName="Home">
@@ -44,8 +44,12 @@ export default function StackNav() {
       />
       <Stack.Screen
         name="Report-Details"
-        children={() => (
-          <ReportDetailsScreen location={location} setLocation={setLocation} />
+        children={({ route }) => (
+          <ReportDetailsScreen
+            location={location}
+            setLocation={setLocation}
+            params={route.params.id}
+          />
         )}
         options={{
           headerShown: false,

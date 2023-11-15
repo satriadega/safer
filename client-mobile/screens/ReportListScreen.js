@@ -40,7 +40,9 @@ export default function ReportListScreen({ navigation }) {
   );
 
   const handleCardPress = (id) => {
-    navigation.navigate("Report-Details", { id });
+    navigation.navigate("Report-Details", {
+      id,
+    });
   };
 
   const clearInput = () => {
