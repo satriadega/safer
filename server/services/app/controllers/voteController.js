@@ -1,5 +1,4 @@
-const { Op } = require("sequelize");
-const { Vote, Report, User } = require("../models");
+const { Vote, Report, User, sequelize } = require("../models");
 
 class VoteController {
   static async getVotes(req, res, next) {
@@ -20,7 +19,7 @@ class VoteController {
   static async getVoteById(req, res, next) {
     try {
       const { id } = req.params;
-      console.log(id);
+      // console.log(id);
       const vote = await Vote.findByPk(+id, {
         include: [Report],
       });
@@ -83,7 +82,7 @@ class VoteController {
       });
 
       // dislike threshold
-      if (countDislike.length >= 1) {
+      if (countDislike.length > 1) {
         await Report.update(
           {
             isActive: false,
@@ -105,11 +104,15 @@ class VoteController {
 
   static async updateVoteById(req, res, next) {
     const { id } = req.params;
-    console.log(+id, "hahaha");
+    const { status, comment, image, ReportId } = req.body;
+    const trx = await sequelize.transaction();
+
     try {
-      const { status, comment, image } = req.body;
       if (status !== "like" && status !== "dislike") {
         throw { name: "Status must be like or dislike" };
+      }
+      if (ReportId === undefined) {
+        throw { name: "ReportId not defined" };
       }
 
       let result = await Vote.update(
@@ -122,15 +125,47 @@ class VoteController {
           where: {
             id: +id,
           },
-        }
+        },
+        { transaction: trx }
       );
-      console.log(result);
+
+      const report = await Report.findByPk(+ReportId);
+      if (!report) {
+        throw { name: "Not Found" };
+      }
+
+      const checkReportStatus = report;
+      if (checkReportStatus.isActive === false) {
+        throw {
+          name: "Status false",
+        };
+      }
+
+      const countDislike = await Vote.findAll({
+        where: { status: "dislike", ReportId: +ReportId },
+      });
+
+      if (countDislike.length > 1) {
+        await Report.update(
+          {
+            isActive: false,
+          },
+          {
+            where: {
+              id: +ReportId,
+            },
+          }
+        );
+      }
+
+      await trx.commit();
       if (!result[0]) {
         throw { name: "Not Valid" };
       } else {
         res.status(200).json({ message: `Vote successfully updated` });
       }
     } catch (err) {
+      await trx.rollback();
       next(err);
     }
   }

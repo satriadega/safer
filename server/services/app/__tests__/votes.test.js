@@ -291,8 +291,7 @@ describe("PUT /votes/:id", function () {
       .send({
         status: "like",
         comment: "asd",
-        image:
-          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
+        ReportId: 1,
       });
 
     expect(response.status).toBe(200);
@@ -423,11 +422,37 @@ describe("PUT /votes/:id", function () {
       .send({
         status: "like",
         comment: "",
-        image:
-          "https://as2.ftcdn.net/v2/jpg/01/43/42/83/1000_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg",
+        ReportId: 1,
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual(expect.any(Object));
     expect(response.body).toHaveProperty("message", ["Comment is required"]);
+  });
+
+  it("should return error if ReportId is not defined and return status 400", async () => {
+    const response = await request(app)
+      .put("/votes/1")
+      .set("access_token", validToken)
+      .send({
+        status: "like",
+        comment: "asd",
+      });
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toHaveProperty("message", "ReportId not defined");
+  });
+
+  it("should return error if ReportId is not exist and return status 404", async () => {
+    const response = await request(app)
+      .put("/votes/1")
+      .set("access_token", validToken)
+      .send({
+        status: "like",
+        comment: "asd",
+        ReportId: 500,
+      });
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toHaveProperty("message", "Error Not Found");
   });
 });

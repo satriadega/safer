@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/core";
 import { Ionicons } from "@expo/vector-icons";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import alertErrors from "../utils/alertErrors";
 
 const GET_USER = gql`
   query GetUser($userId: ID!) {
@@ -27,9 +28,8 @@ const GET_USER = gql`
 `;
 
 export default function ProfileScreen({ navigation }) {
-  const [loading, setLoading] = useState(false);
-  const [access_token, setAccessToken] = useState("");
-  const [id, setId] = useState("");
+  const [access_token, setAccessToken] = useState(false);
+  const [id, setId] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -37,6 +37,17 @@ export default function ProfileScreen({ navigation }) {
     phoneNumber: "",
     address: "",
   });
+
+  const funcAccessToken = async () => {
+    try {
+      const getAccessToken = await AsyncStorage.getItem("access_token");
+      const getId = await AsyncStorage.getItem("id");
+      setAccessToken(getAccessToken);
+      setId(getId);
+    } catch (err) {
+      console.log(err, "jalan");
+    }
+  };
 
   const {
     loading: loadingUser,
@@ -52,37 +63,44 @@ export default function ProfileScreen({ navigation }) {
         access_token: access_token,
       },
     },
+    onCompleted: () => {
+      console.log(dataUser);
+    },
+    onError: (err) => {
+      console.log(err.toString(), "jalan");
+      if (err === "[ApolloError: Invalid token]") {
+        removeToken();
+        console.log("hapus");
+      }
+    },
   });
 
   // const decoded = jwtDecode(access_token);
   // console.log(decoded, "<<<>>>DECODED");
-  const funcAccessToken = async () => {
-    try {
-      const getAccessToken = await AsyncStorage.getItem("access_token");
-      const getId = await AsyncStorage.getItem("id");
-
-      setAccessToken(getAccessToken);
-      setId(getId);
-    } catch (err) {
-      console.log(err);
-    }
+  const removeToken = async () => {
+    await AsyncStorage.removeItem("access_token");
+    await AsyncStorage.removeItem("id");
+    navigation.navigate("Login");
   };
 
   useFocusEffect(
     React.useCallback(() => {
       funcAccessToken();
-      refetch();
-    }, [id])
+      console.log(access_token, id);
+      // refetch();
+    }, [])
   );
 
   const handelLogout = async () => {
-    await AsyncStorage.removeItem("access_token");
-    setAccessToken("");
-    navigation.navigate("Login");
-  };
-
-  const printAT = () => {
-    console.log(access_token, "<<<<<<<<< access_token dari profile");
+    try {
+      await AsyncStorage.removeItem("access_token");
+      await AsyncStorage.removeItem("id");
+      setAccessToken(false);
+      setId(false);
+      navigation.navigate("Report List");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -104,12 +122,12 @@ export default function ProfileScreen({ navigation }) {
             {dataUser && (
               <>
                 <View>
-                  <Text style={styles.username}>{dataUser?.user.name}</Text>
-                  <Text style={styles.data}>{dataUser?.user.email}</Text>
-                  <Text style={styles.data}>{dataUser?.user.phoneNumber}</Text>
-                  <Text style={styles.data}>{dataUser?.user.gender}</Text>
+                  <Text style={styles.username}>{dataUser?.user?.name}</Text>
+                  <Text style={styles.data}>{dataUser?.user?.email}</Text>
+                  <Text style={styles.data}>{dataUser?.user?.phoneNumber}</Text>
+                  <Text style={styles.data}>{dataUser?.user?.gender}</Text>
                   <Text style={styles.justifyData}>
-                    {dataUser?.user.address}
+                    {dataUser?.user?.address}
                   </Text>
                 </View>
                 <View style={{ marginVertical: 20 }}>
