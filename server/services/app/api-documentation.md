@@ -166,11 +166,11 @@ _Response ( 200 - OK )_
     "updatedAt": "2023-11-20T15:08:13.510Z",
     "User": {
       "id": 1,
-      "name": "a",
-      "email": "test123@mail.com",
+      "name": "tester",
+      "email": "test@mail.com",
       "gender": "male",
-      "phoneNumber": "1",
-      "address": "a",
+      "phoneNumber": "081517588332",
+      "address": "home address",
       "createdAt": "2023-11-20T14:36:49.004Z",
       "updatedAt": "2023-11-20T14:36:49.004Z"
     },
@@ -198,11 +198,11 @@ _Response ( 200 - OK )_
     "updatedAt": "2023-11-20T15:08:13.510Z",
     "User": {
       "id": 1,
-      "name": "a",
-      "email": "test123@mail.com",
+      "name": "tester",
+      "email": "test@mail.com",
       "gender": "male",
-      "phoneNumber": "1",
-      "address": "a",
+      "phoneNumber": "081517588332",
+      "address": "home address",
       "createdAt": "2023-11-20T14:36:49.004Z",
       "updatedAt": "2023-11-20T14:36:49.004Z"
     },
@@ -242,11 +242,11 @@ _Response ( 200 - OK )_
   "updatedAt": "2023-11-20T15:08:13.510Z",
   "User": {
     "id": 1,
-    "name": "a",
-    "email": "test123@mail.com",
+    "name": "tester",
+    "email": "test@mail.com",
     "gender": "male",
-    "phoneNumber": "1",
-    "address": "a",
+    "phoneNumber": "081517588332",
+    "address": "home address",
     "createdAt": "2023-11-20T14:36:49.004Z",
     "updatedAt": "2023-11-20T14:36:49.004Z"
   }
