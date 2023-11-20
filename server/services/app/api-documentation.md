@@ -145,7 +145,7 @@ Description:
 
 - Get all reports
 
-_Response( 200 - OK )_
+_Response ( 200 - OK )_
 
 ```json
 [
@@ -222,7 +222,7 @@ Description:
 
 - Get report details
 
-_Response( 200 - OK )_
+_Response ( 200 - OK )_
 
 ```json
 {
@@ -267,7 +267,7 @@ Description:
 
 - Get all types
 
-_Response( 200 - OK )_
+_Response ( 200 - OK )_
 
 ```json
 [
@@ -309,7 +309,7 @@ Request :
 }
 ```
 
-_Response( 200 - OK )_
+_Response ( 200 - OK )_
 
 ```json
 {
@@ -342,7 +342,7 @@ Description:
 
 - Get all votes
 
-_Response( 200 - OK )_
+_Response ( 200 - OK )_
 
 ```json
 {
@@ -427,7 +427,7 @@ Description:
 
 Get all votes in report details.
 
-_Response( 200 - OK)_
+_Response ( 200 - OK )_
 
 ```json
 [
@@ -496,7 +496,7 @@ Request:
 }
 ```
 
-_Response( 200 - OK )_
+_Response ( 200 - OK )_
 
 ```json
 {
@@ -557,7 +557,19 @@ Request:
 }
 ```
 
-_Response( 200 - OK )_
+- body :
+
+```json
+{
+  "title": "testing report 1",
+  "description": "testing report 1",
+  "TypeId": 1,
+  "latitude": "1",
+  "longitude": "1"
+}
+```
+
+_Response ( 200 - OK )_
 
 ```json
 {
