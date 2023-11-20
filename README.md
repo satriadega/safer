@@ -6,7 +6,7 @@ This project aims to fulfill One of the 17 Sustainability & Development Goals se
 
 ## Application Demo
 
-![FinalDemo](safer-demo1.gif)
+![FinalDemo](safer-demo2.gif)
 
 ## Technical Overview
 
