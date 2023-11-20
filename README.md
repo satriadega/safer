@@ -18,12 +18,15 @@ This project aims to fulfill One of the 17 Sustainability & Development Goals se
 - Graphql + Apollo GraphQL
 - GraphQL Server
 - Redis Cache
+- ExpressJS
 - Sequelize ORM
 - PostgreSQL Database
 
+This project integrate Google Maps and Cloudinary 3rd party API
+
 ### Database Schema
 
-![ERD]()
+![ERD](saferERD.png)
 
 ### Results of Integration Tests
 
