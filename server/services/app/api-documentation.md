@@ -66,7 +66,7 @@ _Response ( 200 - OK )_
 }
 ```
 
-_Response (401 - Unauthorized)_
+_Response ( 401 - Unauthorized )_
 
 ```json
 {
@@ -146,7 +146,7 @@ Description:
 
 - Get all reports
 
-_Response( 200 - OK)_
+_Response( 200 - OK )_
 
 ```json
 [
@@ -223,7 +223,7 @@ Description:
 
 - Get report details
 
-_Response( 200 - OK)_
+_Response( 200 - OK )_
 
 ```json
 {
@@ -268,7 +268,7 @@ Description:
 
 - Get all types
 
-_Response( 200 - OK)_
+_Response( 200 - OK )_
 
 ```json
 [
@@ -308,7 +308,7 @@ Description:
 }
 ```
 
-_Response( 200 - OK)_
+_Response( 200 - OK )_
 
 ```json
 {
@@ -341,7 +341,7 @@ Description:
 
 - Get all votes
 
-_Response( 200 - OK)_
+_Response( 200 - OK )_
 
 ```json
 {
@@ -382,7 +382,7 @@ _Response( 200 - OK)_
       }
     },
     {
-      "id": 1,
+      "id": 2,
       "status": "dislike",
       "UserId": 2,
       "comment": "testing vote 2",
@@ -429,25 +429,46 @@ Get all votes in report details.
 _Response( 200 - OK)_
 
 ```json
-{
-  "id": 1,
-  "status": "dislike",
-  "UserId": 1,
-  "comment": "Jalan brok",
-  "ReportId": 1,
-  "createdAt": "2023-11-20T15:08:28.767Z",
-  "updatedAt": "2023-11-20T15:08:28.767Z",
-  "User": {
+[
+  {
     "id": 1,
-    "name": "a",
-    "email": "test123@mail.com",
-    "gender": "male",
-    "phoneNumber": "1",
-    "address": "a",
-    "createdAt": "2023-11-20T14:36:49.004Z",
-    "updatedAt": "2023-11-20T14:36:49.004Z"
+    "status": "like",
+    "UserId": 1,
+    "comment": "testing vote 1",
+    "ReportId": 1,
+    "createdAt": "2023-11-20T15:08:28.767Z",
+    "updatedAt": "2023-11-20T15:08:28.767Z",
+    "User": {
+      "id": 1,
+      "name": "tester",
+      "email": "test@mail.com",
+      "gender": "male",
+      "phoneNumber": "081517588332",
+      "address": "home address",
+      "createdAt": "2023-11-20T14:36:49.004Z",
+      "updatedAt": "2023-11-20T14:36:49.004Z"
+    }
+  },
+  {
+    "id": 2,
+    "status": "dislike",
+    "UserId": 2,
+    "comment": "testing vote 2",
+    "ReportId": 1,
+    "createdAt": "2023-11-20T15:08:28.767Z",
+    "updatedAt": "2023-11-20T15:08:28.767Z",
+    "User": {
+      "id": 2,
+      "name": "tester2",
+      "email": "test2@mail.com",
+      "gender": "male",
+      "phoneNumber": "081517588332",
+      "address": "home address",
+      "createdAt": "2023-11-20T14:36:49.004Z",
+      "updatedAt": "2023-11-20T14:36:49.004Z"
+    }
   }
-}
+]
 ```
 
 _Response ( 404 - Not Found )_
@@ -474,7 +495,7 @@ Request:
 }
 ```
 
-_Response( 200 - OK)_
+_Response( 200 - OK )_
 
 ```json
 {
@@ -523,7 +544,7 @@ Request:
 }
 ```
 
-_Response( 200 - OK)_
+_Response( 200 - OK )_
 
 ```json
 {

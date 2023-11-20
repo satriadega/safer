@@ -22,7 +22,7 @@ This project aims to fulfill One of the 17 Sustainability & Development Goals se
 - Sequelize ORM
 - PostgreSQL Database
 
-This project integrate Google Maps and Cloudinary 3rd party API
+This project integrates Google Maps and Cloudinary 3rd party API
 
 ### Database Schema
 
@@ -34,11 +34,11 @@ This project integrate Google Maps and Cloudinary 3rd party API
 
 ## How to Run
 
-Front-end
+### Front-end
 
 go to the `client-mobile` directory, first run `npm install`, then run `npm start`
 
-Back-end
+### Back-end
 
 This repository is created of two services - the REST API (`server/services/app` directory) and the GraphQL server (`server/orchestrator` directory).
 
@@ -48,6 +48,6 @@ To run the server, open the directory of each service, setup the `.env` file for
 
 ## API Documentation
 
-API Documentation: [ server/services/app/api-documentation.md](server/services/app/api-documentation.md)<br>
+API Documentation: [server/services/app/api-documentation.md](server/services/app/api-documentation.md)<br>
 
 Created by : Satria Pandega Nanwicak, Dimas Ashar, Donny Trisno, Open Sihotang
