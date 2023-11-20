@@ -24,10 +24,9 @@
 - POST `/reports`<br>
   Create report after user login.
 - POST `/votes`<br>
+  Create vote after user login.
 - GET `/votes/:id`<br>
   Get vote details after user login.
-- POST `/votes/:id`<br>
-  Create vote after user login.
 - PUT `/votes/:id`<br>
   Update vote status like or dislike after user login.
 
@@ -299,6 +298,8 @@ Description:
 
 - Create new type
 
+Request :
+
 - body :
 
 ```json
@@ -544,6 +545,18 @@ Request:
 }
 ```
 
+- body :
+
+```json
+{
+  "title": "testing report 1",
+  "description": "testing report 1",
+  "TypeId": 1,
+  "latitude": "1",
+  "longitude": "1"
+}
+```
+
 _Response( 200 - OK )_
 
 ```json
@@ -588,5 +601,159 @@ _Response ( 404 - Not Found )_
 ```json
 {
   "message": "Error Not Found"
+}
+```
+
+## 11. POST/votes
+
+Description:
+
+- Create vote after user login.
+
+Request:
+
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+- body :
+
+```json
+{
+  "status": "like",
+  "comment": "testing vote 1",
+  "ReportId": 1
+}
+```
+
+_Response ( 201 - Created )_
+
+```json
+{
+  "id": 2,
+  "status": "like",
+  "comment": "testing vote 1",
+  "ReportId": 1,
+  "UserId": 1,
+  "updatedAt": "2023-11-20T16:27:10.376Z",
+  "createdAt": "2023-11-20T16:27:10.376Z"
+}
+```
+
+_Response ( 400 - Bad Request )_
+
+```json
+{
+    "message" : "ReportId not defined"
+}
+OR
+{
+    "message" : "Status must be like or dislike"
+}
+OR
+{
+    "message" : "Comment is required"
+}
+```
+
+_Response ( 403 - Forbidden )_
+
+```json
+{
+  "message": "You are not authorized"
+}
+```
+
+_Response ( 404 - Not Found )_
+
+```json
+{
+  "message": "Error Not Found"
+}
+```
+
+## 12. GET/votes/:id
+
+Description:
+
+- Get vote details after user login
+
+Request:
+
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+_Response ( 200 - OK )_
+
+```json
+{
+  "id": 1,
+  "status": "like",
+  "UserId": 1,
+  "comment": "testing vote 1",
+  "ReportId": 1,
+  "createdAt": "2023-11-20T15:08:28.767Z",
+  "updatedAt": "2023-11-20T15:08:28.767Z",
+  "User": {
+    "id": 1,
+    "name": "tester",
+    "email": "test@mail.com",
+    "gender": "male",
+    "phoneNumber": "081517588332",
+    "address": "home address",
+    "createdAt": "2023-11-20T14:36:49.004Z",
+    "updatedAt": "2023-11-20T14:36:49.004Z"
+  }
+}
+```
+
+_Response ( 401 - Unauthorized )_
+
+```json
+{
+  "message": "Invalid token"
+}
+```
+
+_Response ( 404 - Not Found )_
+
+```json
+{
+  "message": "Error Not Found"
+}
+```
+
+## 13. PUT/votes/:id
+
+Description:
+
+- Update vote after user login
+
+Request:
+
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+- body :
+
+```json
+{
+  "status": "dislike",
+  "comment": "updated testing vote 1",
+  "ReportId": 1
 }
 ```
