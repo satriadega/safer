@@ -6,7 +6,7 @@ This project aims to fulfill One of the 17 Sustainability & Development Goals se
 
 ## Application Demo
 
-![FinalDemo](safer-demo1.gif)
+![FinalDemo](safer-demo2.gif)
 
 ## Technical Overview
 
@@ -14,103 +14,33 @@ This project aims to fulfill One of the 17 Sustainability & Development Goals se
 
 ![Tech Stack](tech-stack.png)
 
-- PostgreSQL Database
-- Express REST API
-- ORM Sequelize
+- React Native Expo
+- Graphql + Apollo GraphQL
 - GraphQL Server
 - Redis Cache
-- Docker Containers
+- Sequelize ORM
+- PostgreSQL Database
 
 ### Database Schema
 
-![ERD](ERD.png)
+![ERD]()
 
 ### Results of Integration Tests
 
-79 unit tests have been run successfully, achieving an average coverage of **90%**.
-
-![Results of Integration Tests](integration-test-coverage.png)
+![Results of Integration Tests](testingJest.png)
 
 ## How to Run
 
-This repository is composed of two services - the REST API (`express-app` directory) and the GraphQL server (`graphql` directory).
+Front-end
 
-To create, migrate, and seed the database in a development and testing environment, go to the `express-app` directory, then run `bash dbsetup-sequelize.sh`. [Requires sequelize-cli]
+go to the `client-mobile` directory, first run `npm install`, then run `npm start`
 
-To run the server, open the directory of each service, setup the `.env` file for each directory, and then run the command `npm run dev`.
+Back-end
 
-The branch `deployment` is provided for ready shipping to production. In this branch, Dockerfiles have been provided for easier setup.
+This repository is created of two services - the REST API (`server/services/app` directory) and the GraphQL server (`server/orchestrator` directory).
 
-# LaguDB - Server
+To create, migrate the database in a development and testing environment, go to the `server/services/app` directory, first run `npm install`, then run `bash dbsetup-sequelize.sh`, for testing run `npm run test` in the `server/services/app` directory.
 
-Lagu - Indonesian for "song".
+To run the server, open the directory of each service, setup the `.env` file for each directory, and then run the command `npm start`.
 
-Modelled after Last.fm, Discogs, and VocaDB, LaguDB is an aggregate platform for musical artists, songs, and the like. With LaguDB you can follow your favourite artists and keep updated on their latest songs. In addition, LaguDB also has a novel feature - auto-timed lyrics, or lyrics that play along with the music video in real time.
-
-API Documentation: [Link](api-documentation.md)<br>
-Front-end Client (Vue) (proof of concept): [Link](https://github.com/ValYauw/lagu-db-vue-client)
-
-## Application Demo
-
-### Basic UI
-
-![Homepage](demo-screenshots/lagudb-home.png)
-
-### Browse Songs and Artists
-
-![Songs](demo-screenshots/lagudb-songs.png)
-
-![Artist](demo-screenshots/lagudb-artist-detail.png)
-
-### MVP - Lyrics change alongside the music
-
-![Auto-timed Lyrics](demo-screenshots/auto-timed-lyrics.gif)
-
-## Tech Stack & Features
-
-- Monolithic Architecture (Express.js REST API)
-- PostgreSQL Database
-- ORM Sequelize
-- Google Login (OAuth)
-- CRUD (Create, Read, Update, Destroy) songs, albums, artists
-- Integration with Third Party APIs (YouTube Data and VocaDB public API)
-- Integration with the YouTube IFrame API on the front-end to render auto-timed lyrics
-
-## Database Schema
-
-![ERD](ERD.png)
-
-## How to run
-
-`npm install`
-
-Install packages and dependencies.
-
-`bash dbsetup-sequelize.sh`
-
-Migrates and seeds database in development and testing environments. [Requires sequelize-cli]
-
-Database configuration options can be changed in `config/config.json`.
-
-`npm run dev`
-
-Start Node.js application.
-
-`bash dbdrop-sequelize.sh`
-
-Drops the database in development and testing environments. [Requires sequelize-cli]
-
-`npm run test`
-
-Run tests.
-
-## Current State of Development (_October 11, 2023_)
-
-- Finished 28 entrypoints for CRUD (Create, Read, Update, Destroy).
-- Passed 164 unit tests with [85% coverage](__tests__/integration-test-results.PNG).
-- Finished a basic front-end web application showcasing read & search features and the auto-timed lyrics playback feature.
-
-## Stretch Goals
-
-- Database Optimization
-- UI Redesign of Front-end Code, possibly using React.js instead of Vue.js + Vuetify.
+Created by : Satria Pandega Nanwicak, Dimas Ashar, Donny Trisno, Open Sihotang
