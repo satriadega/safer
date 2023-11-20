@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import alertErrors from "../utils/alertErrors";
+import { GET_REPORTS } from "../config/queries";
 
 const LOGIN_USER = gql`
   mutation Mutation($email: String!, $password: String!) {
@@ -29,6 +30,7 @@ export default function LoginScreen({ navigation }) {
     onError: (err) => {
       alertErrors(err);
     },
+    refetchQueries: [GET_REPORTS],
   });
 
   const [loginForm, setLoginForm] = useState({
