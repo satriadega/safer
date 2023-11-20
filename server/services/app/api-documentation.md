@@ -425,7 +425,7 @@ _Response ( 200 - OK )_
 
 Description:
 
-Get all votes in report details.
+- Get all votes in report details.
 
 _Response ( 200 - OK )_
 
@@ -542,18 +542,6 @@ Request:
 ```json
 {
   "access_token": "string"
-}
-```
-
-- body :
-
-```json
-{
-  "title": "testing report 1",
-  "description": "testing report 1",
-  "TypeId": 1,
-  "latitude": "1",
-  "longitude": "1"
 }
 ```
 
@@ -767,5 +755,53 @@ Request:
   "status": "dislike",
   "comment": "updated testing vote 1",
   "ReportId": 1
+}
+```
+
+_Response ( 200 - OK )_
+
+```json
+{
+  "message": "Vote successfully updated"
+}
+```
+
+_Response ( 400 - Bad Request )_
+
+```json
+{
+    "message" : "ReportId not defined"
+}
+OR
+{
+    "message" : "Status must be like or dislike"
+}
+OR
+{
+    "message" : "Comment is required"
+}
+```
+
+_Response ( 401 - Unauthorized )_
+
+```json
+{
+  "message": "Invalid token"
+}
+```
+
+_Response ( 403 - Forbidden )_
+
+```json
+{
+  "message": "You are not authorized"
+}
+```
+
+_Response ( 404 - Not Found )_
+
+```json
+{
+  "message": "Error Not Found"
 }
 ```
