@@ -179,7 +179,8 @@ class VoteController {
         },
         include: [{ model: User, attributes: { exclude: ["password"] } }],
       });
-      if (!voteByReport) {
+
+      if (voteByReport.length === 0) {
         throw { name: "Not Found" };
       } else {
         res.status(200).json(voteByReport);

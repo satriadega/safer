@@ -46,4 +46,8 @@ To create, migrate the database in a development and testing environment, go to 
 
 To run the server, open the directory of each service, setup the `.env` file for each directory, and then run the command `npm start`.
 
+## API Documentation
+
+API Documentation: [ server/services/app/api-documentation.md](server/services/app/api-documentation.md)<br>
+
 Created by : Satria Pandega Nanwicak, Dimas Ashar, Donny Trisno, Open Sihotang
