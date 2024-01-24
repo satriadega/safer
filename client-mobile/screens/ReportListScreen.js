@@ -36,7 +36,7 @@ export default function ReportListScreen({ navigation }) {
   );
 
   const finalFilterData = filteredData?.filter(
-    (item) => item.title.includes(search) || !search
+    (item) => item.title.toLowerCase().includes(search.toLowerCase()) || !search
   );
 
   const handleCardPress = (id) => {

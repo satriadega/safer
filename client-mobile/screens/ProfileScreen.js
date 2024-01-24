@@ -68,7 +68,7 @@ export default function ProfileScreen({ navigation }) {
     },
     onError: (err) => {
       console.log(err.toString(), "jalan");
-      if (err === "[ApolloError: Invalid token]") {
+      if (err.toString() === "ApolloError: Invalid token") {
         removeToken();
         console.log("hapus");
       }
@@ -78,6 +78,7 @@ export default function ProfileScreen({ navigation }) {
   // const decoded = jwtDecode(access_token);
   // console.log(decoded, "<<<>>>DECODED");
   const removeToken = async () => {
+    console.log("gakjalan");
     await AsyncStorage.removeItem("access_token");
     await AsyncStorage.removeItem("id");
     navigation.navigate("Login");
