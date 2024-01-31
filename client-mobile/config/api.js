@@ -1,1 +1,1 @@
-export const API_URL = "https://satriadegaserver.click";
+export const API_URL = "http://192.168.10.160:4000";
